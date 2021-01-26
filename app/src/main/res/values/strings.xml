@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Smart Wallet</string>
+    <string name="emailid">EmailID</string>
+    <string name="passwordatleast8_letter">Password(ATLEAST 8 LETTER)</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="alreadyhave_an_accountsignein">Already have an Account SigneIn!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="string_emailid">\@string/emailid</string>
+    <string name="email_id">Email ID</string>
 </resources>
