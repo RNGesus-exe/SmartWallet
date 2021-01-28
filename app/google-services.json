@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "795070130544",
+    "project_id": "smartfinance-f91b5",
+    "storage_bucket": "smartfinance-f91b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795070130544:android:deb2422813ce89ecbb87b5",
+        "android_client_info": {
+          "package_name": "com.rngesus.firebase_testing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795070130544-mmoue2tm7pngeou63loqonr3r9o5hq19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjlfiI_fNJBnCyVSPhbJdpTtf8-NiTmW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795070130544-mmoue2tm7pngeou63loqonr3r9o5hq19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795070130544:android:eaebe5a64f3d7017bb87b5",
+        "android_client_info": {
+          "package_name": "com.rngesus.smartwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795070130544-mmoue2tm7pngeou63loqonr3r9o5hq19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjlfiI_fNJBnCyVSPhbJdpTtf8-NiTmW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795070130544-mmoue2tm7pngeou63loqonr3r9o5hq19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
