@@ -172,6 +172,15 @@ public class SignUp extends Fragment {
 
             }
         });
+        Alreadyhaveaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+
+            }
+        });
         Sineup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,8 +240,10 @@ public class SignUp extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful())
                                 {
-                                    HashMap<Object,String> userdata=new HashMap<>();
+                                    HashMap<String,Object> userdata=new HashMap<>();
                                     userdata.put("fullname",Fullname.getText().toString());
+                                    userdata.put("email",iD.getText().toString());
+                                    userdata.put("Profile","");
                                     firebaseFirestore.collection("USERS").add(userdata ).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -244,6 +255,9 @@ public class SignUp extends Fragment {
                                                 Fullname.setText(" ");
                                                 Password.setText(" ");
                                                 conpassword.setText(" ");
+                                                Intent intent=new Intent(getContext(),MainActivity.class);
+                                                startActivity(intent);
+                                                getActivity().finish();
                                             }
                                             else
                                             {

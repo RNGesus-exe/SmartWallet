@@ -1,5 +1,6 @@
 package com.rngesus.smartwallet;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -24,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogin;
     TextView tvSignup;
     TextView tvFrogotten;
-    public static final String MY_PREFS_FILENAME = "com.example.loginfunctionality.Username";
+    SharedPref shared;
+    public static final String MY_PREFS_FILENAME = "com.rngesus.smartwallet";
 
 
     @Override
@@ -36,38 +42,35 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnLogin.setOnClickListener(v -> {
-            if(cbKeepsigned.isChecked()){
-                SharedPreferences.Editor sPrefEditor = getSharedPreferences(MY_PREFS_FILENAME, MODE_PRIVATE).edit();
-                sPrefEditor.putString("msg","true");
-                sPrefEditor.putString("email", etLogin.getText().toString());
-                sPrefEditor.putString("pass", etPass.getText().toString());
-                sPrefEditor.commit();
-
-                signin(etLogin.toString().trim(),etPass.toString().trim());
+            if (cbKeepsigned.isChecked()) {
+                 shared=new SharedPref();
+                shared.SaveData(MainActivity.this,"true",etLogin.getText().toString(),etPass.getText().toString());
+                signin(etLogin.getText().toString(), etPass.getText().toString());
 
             }
-            signin(etLogin.toString().trim(),etPass.toString().trim());
-
-
+            signin(etLogin.getText().toString(), etPass.getText().toString());
 
 
         });
 
         tvSignup.setOnClickListener(v -> {
 
-            // add your code here
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(intent);
+            finish();
 
         });
 
         tvFrogotten.setOnClickListener(v -> {
 
-            // add your code here
-
+            Intent intent = new Intent(MainActivity.this, ForgottenPassword.class);
+            startActivity(intent);
+            finish();
         });
 
     }
 
-    public void init(){
+    public void init() {
         etLogin = findViewById(R.id.etLogin);
         etPass = findViewById(R.id.etPass);
         btnLogin = findViewById(R.id.btnLogin);
@@ -75,45 +78,52 @@ public class MainActivity extends AppCompatActivity {
         tvFrogotten = findViewById(R.id.tvFrogotten);
         cbKeepsigned = findViewById(R.id.cbSignedin);
 
-        SharedPreferences sPrefsReadData = getSharedPreferences(MY_PREFS_FILENAME, MODE_PRIVATE);
-        String message = sPrefsReadData.getString("msg", "");
-        if (message.equals("true"))
-        {
-            String login = sPrefsReadData.getString("email", "");
-            String pass = sPrefsReadData.getString("pass", "");
-            signin(login,pass);
+         shared=new SharedPref();
+         shared.LoadData(MainActivity.this);
+        String message = shared.LoadData(MainActivity.this);
+        String[] str = new String[3];
 
+       for(int i=0; i<message.length(); i++)
+       {
+           str=message.split(",");
+       }
+
+        if (str[0].equals("true")) {
+           String login = str[1];
+            String pass = str[2];
+            signin(login,pass);
 
         }
 
 
+    }
+
+    public void signin(String login, String pass) {
+        Toast.makeText(this, "email="+login, Toast.LENGTH_SHORT).show();
+        mAuth.signInWithEmailAndPassword(login, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                   Intent intent= new Intent(MainActivity.this,NavigationActivity.class);
+                   startActivity(intent);
+                   etLogin.setText("");
+                   etPass.setText("");
+                    // use this to get user details in main program
+                    // FirebaseUser user = mAuth.getCurrentUser();
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    String error = task.getException().getMessage();
+                    Toast.makeText(MainActivity.this, "ERROR=" + error, Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+
+
+        });
 
 
     }
-
-    public void signin(String login, String pass){
-        mAuth.signInWithEmailAndPassword(login, pass)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithEmail:success");
-
-                       // use this to get user details in main program
-                       // FirebaseUser user = mAuth.getCurrentUser();
-
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(MainActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-
-
-                    }
-
-
-                });
-
-    }
-
-
-    }
+}
