@@ -4,7 +4,6 @@
     package="com.rngesus.smartwallet">
 
     <uses-sdk tools:overrideLibrary="com.budiyev.android.codescanner" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
