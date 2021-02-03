@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/income"
+            android:icon="@drawable/logo"
+            android:title="My income" />
+        <item
+            android:id="@+id/Outcome"
+            android:icon="@drawable/logo"
+            android:title="Out Come" />
+        <item
+            android:id="@+id/cart"
+            android:icon="@drawable/logo"
+            android:title="MY Cart" />
+        <item
+            android:id="@+id/Transfer"
+            android:icon="@drawable/logo"
+            android:title="Transfer Cash" />
+        <item
+            android:id="@+id/Recharge"
+            android:icon="@drawable/logo"
+            android:title="Recharge Acc" />
+        <item
+            android:id="@+id/QR"
+            android:icon="@drawable/logo"
+            android:title="QR Code" />
+        <item
+            android:id="@+id/Setting"
+            android:icon="@drawable/logo"
+            android:title="Setting" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/logo"
+            android:title="Logout" />
+
+
+    </group>
+</menu>
