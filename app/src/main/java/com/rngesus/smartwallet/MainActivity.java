@@ -99,30 +99,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signin(String login, String pass) {
-        Toast.makeText(this, "email="+login, Toast.LENGTH_SHORT).show();
-        mAuth.signInWithEmailAndPassword(login, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                   Intent intent= new Intent(MainActivity.this,NavigationActivity.class);
-                   startActivity(intent);
-                   etLogin.setText("");
-                   etPass.setText("");
-                    // use this to get user details in main program
-                    // FirebaseUser user = mAuth.getCurrentUser();
+        if(login.isEmpty() && pass.isEmpty())
+        {
+            Toast.makeText(this, "Login or password is Empty", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            mAuth.signInWithEmailAndPassword(login, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
+                        startActivity(intent);
+                        etLogin.setText("");
+                        etPass.setText("");
+                        // use this to get user details in main program
+                        // FirebaseUser user = mAuth.getCurrentUser();
 
-                } else {
-                    // If sign in fails, display a message to the user.
-                    String error = task.getException().getMessage();
-                    Toast.makeText(MainActivity.this, "ERROR=" + error, Toast.LENGTH_SHORT).show();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        String error = task.getException().getMessage();
+                        Toast.makeText(MainActivity.this, "ERROR=" + error, Toast.LENGTH_SHORT).show();
+                    }
+
+
                 }
 
 
-            }
-
-
-        });
+            });
+        }
 
 
     }

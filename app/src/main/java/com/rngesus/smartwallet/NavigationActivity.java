@@ -45,6 +45,7 @@ public class NavigationActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     String user;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,13 @@ public class NavigationActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.income:
                         Toast.makeText(NavigationActivity.this, "income", Toast.LENGTH_SHORT).show();
+                         intent = new Intent(NavigationActivity.this,My_Income.class);
+                         startActivity(intent);
                         break;
                     case R.id.Outcome:
                         Toast.makeText(NavigationActivity.this, "Outcome", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(NavigationActivity.this,out_come.class);
+                        startActivity(intent);
                         break;
                     case R.id.cart:
                         Toast.makeText(NavigationActivity.this, "Cart", Toast.LENGTH_SHORT).show();
@@ -96,7 +101,7 @@ public class NavigationActivity extends AppCompatActivity {
                     case R.id.logout:
                         SharedPref sharedPref= new SharedPref();
                         sharedPref.removeDataFromPref(NavigationActivity.this);
-                        Intent intent= new Intent(NavigationActivity.this,MainActivity.class);
+                        intent= new Intent(NavigationActivity.this,MainActivity.class);
                         startActivity(intent);
                         break;
 

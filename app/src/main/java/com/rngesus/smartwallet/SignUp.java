@@ -249,7 +249,6 @@ public class SignUp extends Fragment {
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
                                             if(task.isSuccessful())
                                             {
-                                                Toast.makeText(getContext(), "hello", Toast.LENGTH_SHORT).show();
                                                 bar.setVisibility(View.INVISIBLE);
                                                 iD.setText(" ");
                                                 Fullname.setText(" ");

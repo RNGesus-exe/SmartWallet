@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartWallet">
+        <activity android:name=".out_come"></activity>
+        <activity android:name=".My_Income" />
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
