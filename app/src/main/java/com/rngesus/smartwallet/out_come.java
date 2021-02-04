@@ -15,7 +15,6 @@ public class out_come extends AppCompatActivity implements OutAdapter.ItemSelect
     RecyclerView recyclerView;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList<Outcome_data> arrayList;
     Dialog dialog;
 
 
@@ -28,16 +27,10 @@ public class out_come extends AppCompatActivity implements OutAdapter.ItemSelect
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         dialog=new Dialog(this);
-        arrayList=new ArrayList<Outcome_data>();
-        arrayList.add(new Outcome_data("5","5000","king","why i tell you","monday"));
-        arrayList.add(new Outcome_data("5","500","king","why i tell you","tuesday"));
-        arrayList.add(new Outcome_data("5","500","king","why i tell you","Wednesday"));
-        arrayList.add(new Outcome_data("5","500","king","why i tell you","Thursday"));
-        arrayList.add(new Outcome_data("5","500","king","why i tell you","Friday"));
-        arrayList.add(new Outcome_data("5","500","king","why i tell you","Saturday"));
-        arrayList.add(new Outcome_data("5","500","king","why i tell you","Sunday"));
+       
 
-        myAdapter=new OutAdapter( arrayList,this);
+
+        myAdapter=new OutAdapter( OutcomeApplication.arrayList2,this);
         recyclerView.setAdapter(myAdapter);
     }
 
@@ -51,11 +44,11 @@ public class out_come extends AppCompatActivity implements OutAdapter.ItemSelect
         sender=dialog.findViewById(R.id.sender);
         income=dialog.findViewById(R.id.cIncome);
         reason=dialog.findViewById(R.id.Creason);
-        date.setText(arrayList.get(index).getDate());
-        day.setText(arrayList.get(index).getDay());
-        sender.setText(arrayList.get(index).getReceiver());
-        income.setText(arrayList.get(index).getOutcome());
-        reason.setText(arrayList.get(index).getReason());
+        date.setText(OutcomeApplication.arrayList2.get(index).getDate());
+        day.setText(OutcomeApplication.arrayList2.get(index).getDay());
+        sender.setText(OutcomeApplication.arrayList2.get(index).getReceiver());
+        income.setText(OutcomeApplication.arrayList2.get(index).getOutcome());
+        reason.setText(OutcomeApplication.arrayList2.get(index).getReason());
 
 
         cross.setOnClickListener(new View.OnClickListener() {

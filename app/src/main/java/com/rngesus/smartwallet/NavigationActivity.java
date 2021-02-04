@@ -88,12 +88,16 @@ public class NavigationActivity extends AppCompatActivity {
                         break;
                     case R.id.Transfer:
                         Toast.makeText(NavigationActivity.this, "Tranfer Cash", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(NavigationActivity.this,TransferActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.Recharge:
                         Toast.makeText(NavigationActivity.this, "Rechare Acc", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.QR:
                         Toast.makeText(NavigationActivity.this, "QR CODE", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(NavigationActivity.this,QrcodeActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.Setting:
                         Toast.makeText(NavigationActivity.this, "Setting", Toast.LENGTH_SHORT).show();

@@ -7,7 +7,8 @@ public class Income_data {
     private String reason;
     private String day;
 
-    public Income_data(String date, String income, String sender, String reason, String day) {
+    public Income_data(String date, String income, String sender, String reason, String day)
+    {
         this.date = date;
         this.income = income;
         this.sender = sender;
