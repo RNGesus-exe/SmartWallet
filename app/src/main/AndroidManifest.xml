@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartWallet">
+        <activity android:name=".RechargeAccount"></activity>
         <activity android:name=".IncomeRecyclerView" />
         <activity android:name=".OutcomeRecyclerView" />
         <activity
