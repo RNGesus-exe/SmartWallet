@@ -2,30 +2,16 @@ package com.rngesus.smartwallet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -73,26 +59,26 @@ public class NavigationActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 drawer.closeDrawer(GravityCompat.START);
                 switch (item.getItemId()) {
-                    case R.id.income:
-                        Toast.makeText(NavigationActivity.this, "income", Toast.LENGTH_SHORT).show();
-                         intent = new Intent(NavigationActivity.this,My_Income.class);
+                    case R.id.tv_amount:
+                        Toast.makeText(NavigationActivity.this, "Income", Toast.LENGTH_SHORT).show();
+                         intent = new Intent(NavigationActivity.this, IncomeRecyclerView.class);
                          startActivity(intent);
                         break;
                     case R.id.Outcome:
                         Toast.makeText(NavigationActivity.this, "Outcome", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(NavigationActivity.this,out_come.class);
+                        intent = new Intent(NavigationActivity.this, OutcomeRecyclerView.class);
                         startActivity(intent);
                         break;
                     case R.id.cart:
                         Toast.makeText(NavigationActivity.this, "Cart", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.Transfer:
-                        Toast.makeText(NavigationActivity.this, "Tranfer Cash", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NavigationActivity.this, "Transfer Cash", Toast.LENGTH_SHORT).show();
                         intent = new Intent(NavigationActivity.this,TransferActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.Recharge:
-                        Toast.makeText(NavigationActivity.this, "Rechare Acc", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NavigationActivity.this, "Recharge Acc", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.QR:
                         Toast.makeText(NavigationActivity.this, "QR CODE", Toast.LENGTH_SHORT).show();
