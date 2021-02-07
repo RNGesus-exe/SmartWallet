@@ -1,6 +1,5 @@
 package com.rngesus.smartwallet;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-
-import java.util.ArrayList;
 
 public class OutcomeAdapter extends FirebaseRecyclerAdapter<Outcome,OutcomeAdapter.OutcomeViewHolder> {
 
@@ -44,7 +41,7 @@ public class OutcomeAdapter extends FirebaseRecyclerAdapter<Outcome,OutcomeAdapt
             tvDate=itemView.findViewById(R.id.tv_date);
             tvTime=itemView.findViewById(R.id.tv_time);
             tvSender=itemView.findViewById(R.id.tv_sender);
-            tvAmount=itemView.findViewById(R.id.tv_amount);
+            tvAmount=itemView.findViewById(R.id.tv_income);
         }
     }
 }

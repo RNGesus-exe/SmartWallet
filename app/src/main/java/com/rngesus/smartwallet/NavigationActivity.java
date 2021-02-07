@@ -28,6 +28,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -94,7 +97,7 @@ public class NavigationActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 drawer.closeDrawer(GravityCompat.START);
                 switch (item.getItemId()) {
-                    case R.id.income:
+                    case R.id.tv_income:
                         Toast.makeText(NavigationActivity.this, "income", Toast.LENGTH_SHORT).show();
                          intent = new Intent(NavigationActivity.this,IncomeRecyclerView.class);
                          startActivity(intent);
