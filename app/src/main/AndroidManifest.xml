@@ -4,19 +4,21 @@
     package="com.rngesus.smartwallet">
 
     <uses-sdk tools:overrideLibrary="com.budiyev.android.codescanner" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.rngesus.smartwallet.OutcomeApplication"
+        android:name=".OutcomeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartWallet">
+        <activity android:name=".RechargeAccount"></activity>
         <activity android:name=".out_come" />
         <activity android:name=".My_Income" />
         <activity
@@ -25,7 +27,6 @@
             android:theme="@style/Theme.SmartWallet.NoActionBar" />
         <activity android:name=".ForgottenPassword" />
         <activity android:name=".SignUpActivity" />
-
         <activity android:name=".TransferActivity" />
         <activity android:name=".generateActivity" />
         <activity android:name=".scanActivity" />

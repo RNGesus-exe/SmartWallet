@@ -54,5 +54,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="@+id/profile_image"
         android:elevation="5dp"
+        android:onClick="addphoto"
         app:srcCompat="@drawable/ic_plus3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

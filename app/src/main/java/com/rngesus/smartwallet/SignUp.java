@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -244,10 +245,12 @@ public class SignUp extends Fragment {
                                     HashMap<String,Object> userdata=new HashMap<>();
                                     userdata.put("fullname",Fullname.getText().toString());
                                     userdata.put("email",iD.getText().toString());
-                                    userdata.put("Profile","");
-                                    firebaseFirestore.collection("USERS").add(userdata ).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    firebaseFirestore.collection("USERS").document(mAuth.getUid()).set(userdata ).addOnSuccessListener(new OnSuccessListener<Void>()
+
+
+                                    {
                                         @Override
-                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                        public void onSuccess(Void aVoid) {
                                             if(task.isSuccessful())
                                             {
                                                 bar.setVisibility(View.INVISIBLE);
@@ -268,6 +271,8 @@ public class SignUp extends Fragment {
                                             }
 
                                         }
+
+
                                     });
 
 
