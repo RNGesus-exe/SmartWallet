@@ -44,6 +44,8 @@ public class SignUp extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private View view;
+
     public SignUp() {
         // Required empty public constructor
     }
@@ -88,7 +90,7 @@ public class SignUp extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
+        view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         Alreadyhaveaccount = view.findViewById(R.id.textView4);
         iD = view.findViewById(R.id.email2);
         Fullname = view.findViewById(R.id.ename);
@@ -254,6 +256,9 @@ public class SignUp extends Fragment {
                                             if(task.isSuccessful())
                                             {
                                                 bar.setVisibility(View.INVISIBLE);
+                                                DataManager dm = new DataManager();
+                                                dm.createUserInFirebase(mAuth.getUid()
+                                                        ,Fullname.getText().toString(),view,false);
                                                 iD.setText(" ");
                                                 Fullname.setText(" ");
                                                 Password.setText(" ");
