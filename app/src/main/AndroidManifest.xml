@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.rngesus.smartwallet">
 
-    <uses-sdk tools:overrideLibrary="com.budiyev.android.codescanner" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
@@ -16,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartWallet">
-        <activity android:name=".RechargeAccount"></activity>
+        <activity android:name=".RechargeAccount"/>
         <activity android:name=".IncomeRecyclerView" />
         <activity android:name=".OutcomeRecyclerView" />
         <activity

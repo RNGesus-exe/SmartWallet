@@ -108,6 +108,8 @@ public class NavigationActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.cart:
+                        intent = new Intent(NavigationActivity.this,ShopActivity.class);
+                        startActivity(intent);
                         Toast.makeText(NavigationActivity.this, "Cart", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.Transfer:
