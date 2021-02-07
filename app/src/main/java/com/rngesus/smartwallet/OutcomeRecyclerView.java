@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class OutcomeRecyclerView extends AppCompatActivity{
     RecyclerView recycler_view;
     OutcomeAdapter outcome_adapter;
+    FirebaseAuth firebaseAuth =  FirebaseAuth.getInstance();
+    String userID = firebaseAuth.getUid();
 
 
     @Override
@@ -27,7 +30,7 @@ public class OutcomeRecyclerView extends AppCompatActivity{
                 new FirebaseRecyclerOptions.Builder<Outcome>()
                         .setQuery(FirebaseDatabase.getInstance().getReference()
                                 .child("Users")
-                                .child("123")
+                                .child(userID)
                                 .child("Outcome"), Outcome.class).build();
 
         outcome_adapter = new OutcomeAdapter(options);
