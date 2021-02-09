@@ -17,43 +17,50 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rngesus.smartwallet.ui.home.HomeFragment;
 
 import java.util.List;
-import java.util.Map;
 
 public class RechargeAccount extends AppCompatActivity {
-    EditText email;
+    EditText RechargeCode;
     Button btn;
     FirebaseAuth mAuth;
     FirebaseFirestore firebaseFirestore;
     private String card;
     String str ="";
     private String rechargeamount;
+    private Firebase fb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge_account);
-        email=findViewById(R.id.edtemail);
-        btn=findViewById(R.id.recharge);
-        mAuth=FirebaseAuth.getInstance();
-        firebaseFirestore=FirebaseFirestore.getInstance();
+        RechargeCode = findViewById(R.id.etRechargeCode);
+        btn = findViewById(R.id.recharge);
+        mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
 
     }
 
     public void Recharge(View view) {
+        DocumentReference docRef;
+        String pin = RechargeCode.getText().toString();
+        fb.loadCardsData(pin,this);
+        docRef =  fb.loadReceiverDocRef(mAuth.getCurrentUser().getEmail(),this);
+        fb.executeCardTransaction(this,docRef);
 
-        String strUserName = email.getText().toString();
-        if (strUserName.trim().equals("")) {
-            Toast.makeText(this, "plz enter your name ", Toast.LENGTH_SHORT).show();
+        if (pin.trim().equals("")) {
+            Toast.makeText(this, "Please Enter Recharge Pin ", Toast.LENGTH_SHORT).show();
         }else
         {
-            emailAuthentication(strUserName);
+            //emailAuthentication(strUserName);
+
 
         }
 

@@ -20,13 +20,13 @@
          />
 
     <EditText
-        android:id="@+id/edtemail"
+        android:id="@+id/etRechargeCode"
         android:layout_width="311dp"
         android:layout_height="45dp"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/white"
         android:ems="10"
-        android:hint="Enter your Email"
+        android:hint="Enter Recharge Code"
         android:inputType="textEmailAddress"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -57,6 +57,6 @@
         android:onClick="Recharge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtemail" />
+        app:layout_constraintTop_toBottomOf="@+id/etRechargeCode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
