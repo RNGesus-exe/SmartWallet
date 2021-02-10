@@ -7,15 +7,15 @@
         <item
             android:id="@+id/tv_income"
             android:icon="@drawable/logo"
-            android:title="My income" />
+            android:title="Credit" />
         <item
             android:id="@+id/Outcome"
             android:icon="@drawable/logo"
-            android:title="Out Come" />
+            android:title="Debit" />
         <item
             android:id="@+id/cart"
             android:icon="@drawable/logo"
-            android:title="MY Cart" />
+            android:title="Shop" />
         <item
             android:id="@+id/Transfer"
             android:icon="@drawable/logo"

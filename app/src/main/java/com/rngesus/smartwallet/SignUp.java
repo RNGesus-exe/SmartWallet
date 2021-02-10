@@ -1,7 +1,7 @@
 package com.rngesus.smartwallet;
 
-import android.app.AutomaticZenRule;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,14 +11,11 @@ import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +25,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -51,14 +46,11 @@ public class SignUp extends Fragment {
     }
     private TextView Alreadyhaveaccount;
     private EditText iD;
-    private EditText Fullname;
+    private EditText fullname;
     private EditText Password;
-    private EditText conpassword;
+    private EditText confirmPassword;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    private ImageButton Male;
-    private ImageButton Female;
-    private Button Sineup;
-    private FrameLayout frame;
+    private Button signUp;
     private FirebaseAuth mAuth;
     private ProgressBar bar;
     private FirebaseFirestore firebaseFirestore;
@@ -91,12 +83,13 @@ public class SignUp extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-        Alreadyhaveaccount = view.findViewById(R.id.textView4);
+        Alreadyhaveaccount = view.findViewById(R.id.tvSignIn);
+        Alreadyhaveaccount.setPaintFlags( Alreadyhaveaccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         iD = view.findViewById(R.id.email2);
-        Fullname = view.findViewById(R.id.ename);
+        fullname = view.findViewById(R.id.ename);
         Password = view.findViewById(R.id.Password);
-        conpassword = view.findViewById(R.id.ConPassword);
-        Sineup = view.findViewById(R.id.button);
+        confirmPassword = view.findViewById(R.id.ConPassword);
+        signUp = view.findViewById(R.id.button);
         mAuth = FirebaseAuth.getInstance();
         bar=view.findViewById(R.id.progressBar2);
         bar.setVisibility(View.GONE);
@@ -125,7 +118,7 @@ public class SignUp extends Fragment {
 
             }
         });
-        Fullname.addTextChangedListener(new TextWatcher() {
+        fullname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -159,7 +152,7 @@ public class SignUp extends Fragment {
 
             }
         });
-        conpassword.addTextChangedListener(new TextWatcher() {
+        confirmPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -185,7 +178,7 @@ public class SignUp extends Fragment {
 
             }
         });
-        Sineup.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkemail();
@@ -198,31 +191,31 @@ public class SignUp extends Fragment {
 
     private void chagestate() {
         if (!TextUtils.isEmpty(iD.getText())) {
-            if (!TextUtils.isEmpty(Fullname.getText())) {
-                if (!TextUtils.isEmpty(Password.getText()) && conpassword.length() >= 8) {
-                    if (!TextUtils.isEmpty(conpassword.getText())) {
+            if (!TextUtils.isEmpty(fullname.getText())) {
+                if (!TextUtils.isEmpty(Password.getText()) && confirmPassword.length() >= 8) {
+                    if (!TextUtils.isEmpty(confirmPassword.getText())) {
                         {
-                            Sineup.setEnabled(true);
-                            Sineup.setTextColor(getResources().getColor(R.color.teal_200));
+                            signUp.setEnabled(true);
+                            signUp.setTextColor(getResources().getColor(R.color.teal_200));
                         }
 
                         } else {
-                            Sineup.setEnabled(false);
-                            Sineup.setTextColor(getResources().getColor(R.color.black));
+                            signUp.setEnabled(false);
+                            signUp.setTextColor(getResources().getColor(R.color.black));
                         }
                     } else {
-                        Sineup.setEnabled(false);
-                        Sineup.setTextColor(getResources().getColor(R.color.black));
+                        signUp.setEnabled(false);
+                        signUp.setTextColor(getResources().getColor(R.color.black));
 
                     }
                 } else {
-                    Sineup.setEnabled(false);
-                    Sineup.setTextColor(getResources().getColor(R.color.black));
+                    signUp.setEnabled(false);
+                    signUp.setTextColor(getResources().getColor(R.color.black));
                 }
 
             } else {
-                Sineup.setEnabled(false);
-                Sineup.setTextColor(getResources().getColor(R.color.black));
+                signUp.setEnabled(false);
+                signUp.setTextColor(getResources().getColor(R.color.black));
             }
 
 
@@ -234,10 +227,10 @@ public class SignUp extends Fragment {
       
         if (iD.getText().toString().matches(emailPattern))
         {
-            if(Password.getText().toString().contentEquals(conpassword.getText()))
+            if(Password.getText().toString().contentEquals(confirmPassword.getText()))
             {
                 bar.setVisibility(View.VISIBLE);
-                Sineup.setEnabled(false);
+                signUp.setEnabled(false);
                 mAuth.createUserWithEmailAndPassword(iD.getText().toString(),Password.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -245,7 +238,7 @@ public class SignUp extends Fragment {
                                 if(task.isSuccessful())
                                 {
                                     HashMap<String,Object> userdata=new HashMap<>();
-                                    userdata.put("fullname",Fullname.getText().toString());
+                                    userdata.put("fullname", fullname.getText().toString());
                                     userdata.put("email",iD.getText().toString());
                                     firebaseFirestore.collection("USERS").document(mAuth.getUid()).set(userdata ).addOnSuccessListener(new OnSuccessListener<Void>()
 
@@ -258,11 +251,11 @@ public class SignUp extends Fragment {
                                                 bar.setVisibility(View.INVISIBLE);
                                                 DataManager dm = new DataManager();
                                                 dm.createUserInFirebase(mAuth.getUid()
-                                                        ,Fullname.getText().toString(),view,false);
+                                                        , fullname.getText().toString(),view,false);
                                                 iD.setText(" ");
-                                                Fullname.setText(" ");
+                                                fullname.setText(" ");
                                                 Password.setText(" ");
-                                                conpassword.setText(" ");
+                                                confirmPassword.setText(" ");
                                                 Intent intent=new Intent(getContext(),MainActivity.class);
                                                 startActivity(intent);
                                                 getActivity().finish();
@@ -272,7 +265,7 @@ public class SignUp extends Fragment {
                                                 bar.setVisibility(View.INVISIBLE);
                                                 String error=task.getException().getMessage();
                                                 Toast.makeText(getActivity(), "ERROR="+error, Toast.LENGTH_SHORT).show();
-                                                Sineup.setEnabled(true);
+                                                signUp.setEnabled(true);
                                             }
 
                                         }
@@ -287,7 +280,7 @@ public class SignUp extends Fragment {
                                     bar.setVisibility(View.INVISIBLE);
                                     String error=task.getException().getMessage();
                                     Toast.makeText(getActivity(), "ERROR="+error, Toast.LENGTH_SHORT).show();
-                                    Sineup.setEnabled(true);
+                                    signUp.setEnabled(true);
 
                                 }
                             }

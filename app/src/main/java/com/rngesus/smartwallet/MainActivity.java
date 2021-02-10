@@ -1,9 +1,8 @@
 package com.rngesus.smartwallet;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -19,7 +18,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     CheckBox cbKeepsigned;
     Button btnLogin;
     TextView tvSignup;
-    TextView tvFrogotten;
+    TextView tvForgotten;
     SharedPref shared;
     public static final String MY_PREFS_FILENAME = "com.rngesus.smartwallet";
 
@@ -49,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
             signin(etLogin.getText().toString(), etPass.getText().toString());
-
-
         });
 
         tvSignup.setOnClickListener(v -> {
@@ -61,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        tvFrogotten.setOnClickListener(v -> {
+        tvForgotten.setOnClickListener(v -> {
 
             Intent intent = new Intent(MainActivity.this, ForgottenPassword.class);
             startActivity(intent);
@@ -75,7 +71,11 @@ public class MainActivity extends AppCompatActivity {
         etPass = findViewById(R.id.etPass);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignup = findViewById(R.id.tvSignup);
-        tvFrogotten = findViewById(R.id.tvFrogotten);
+        tvSignup.setPaintFlags(tvSignup.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        tvForgotten = findViewById(R.id.tvFrogotten);
+        tvForgotten.setPaintFlags(tvForgotten.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         cbKeepsigned = findViewById(R.id.cbSignedin);
 
         shared=new SharedPref();
