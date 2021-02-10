@@ -5,6 +5,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -13,6 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Transaction;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 public class TransferActivity extends AppCompatActivity {
 
@@ -56,6 +62,15 @@ public class TransferActivity extends AppCompatActivity {
                 {
                     loadProfile();
                     executeTransaction();
+                    //--------ADD RECEIPT FUNCTIONS HERE
+                    Date currentTime = Calendar.getInstance().getTime();
+                    DataManager dataManager = new DataManager();
+                    dataManager.addOutcomeReceipt(ReceiverEmail, currentTime.toString(), Timestamp.now().toString(),
+                            firebaseAuth.getCurrentUser().getUid()," QR transfer ",etAmount.getText().toString(),v,false);
+                    dataManager = new DataManager();
+                    dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),
+                            currentTime.toString(), Timestamp.now().toString(),firebaseAuth.getCurrentUser().getEmail(),
+                            "QR Transfer", etAmount.getText().toString(), v,false);
                 }else if(!AmountFlag)
                 {
                     Toast.makeText(TransferActivity.this," Insufficient funds",Toast.LENGTH_LONG).show();

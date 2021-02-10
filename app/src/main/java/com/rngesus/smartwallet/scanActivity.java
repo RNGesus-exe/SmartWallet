@@ -26,6 +26,11 @@ import com.google.firebase.firestore.Transaction;
 import com.google.type.DateTime;
 import com.google.zxing.Result;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 public class scanActivity extends AppCompatActivity {
@@ -163,8 +168,15 @@ public class scanActivity extends AppCompatActivity {
     {
         loadData();
         executeTransaction();
-        dataManager.addOutcomeReceipt(REmail, DateTime.getDefaultInstance().toString(), Timestamp.now().toString(),firebaseAuth.getCurrentUser().getUid()," QR transfer ",TransferAmount+"",view,false);
-        dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),DateTime.getDefaultInstance().toString(), Timestamp.now().toString(),firebaseAuth.getCurrentUser().getEmail(), " QR transfer", TransferAmount.toString(), view,false);
+        //--------ADD RECEIPT FUNCTIONS HERE
+        Date currentTime = Calendar.getInstance().getTime();
+        DataManager dataManager = new DataManager();
+        dataManager.addOutcomeReceipt(ReceiverEmail, currentTime.toString(), Timestamp.now().toString(),
+                firebaseAuth.getCurrentUser().getUid()," QR transfer ",TransferAmount,view,false);
+        dataManager = new DataManager();
+        dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),
+                currentTime.toString(), Timestamp.now().toString(),firebaseAuth.getCurrentUser().getEmail(),
+                "QR Transfer", TransferAmount, view,false);
     }
 
     @Override

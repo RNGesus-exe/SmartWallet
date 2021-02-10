@@ -20,21 +20,6 @@ public class DataManager {
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
-    public void createUserInFirebase(String userId, String username, View view,boolean showToast){
-        firebaseDatabase = firebaseDatabase.child(userId);
-        HashMap<String,String> user = new HashMap<>();
-        user.put("username",username);
-        firebaseDatabase.setValue(user).addOnSuccessListener(aVoid -> {
-            if(showToast) {
-                Toast.makeText(view.getContext(), "Account Creation Successful!!", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(e -> {
-            if(showToast) {
-                Toast.makeText(view.getContext(), "Account Creation Failed!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public void addIncomeReceipt(String receiverID,String dateTime,String time,String sender,String reason,String amount,View view,boolean showToast){
         firebaseDatabase = firebaseDatabase.child(receiverID).child("Income");
 

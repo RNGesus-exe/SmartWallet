@@ -249,9 +249,6 @@ public class SignUp extends Fragment {
                                             if(task.isSuccessful())
                                             {
                                                 bar.setVisibility(View.INVISIBLE);
-                                                DataManager dm = new DataManager();
-                                                dm.createUserInFirebase(mAuth.getUid()
-                                                        , fullname.getText().toString(),view,false);
                                                 iD.setText(" ");
                                                 fullname.setText(" ");
                                                 Password.setText(" ");
