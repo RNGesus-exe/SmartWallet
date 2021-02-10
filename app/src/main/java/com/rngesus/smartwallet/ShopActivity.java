@@ -31,6 +31,8 @@ public class ShopActivity extends AppCompatActivity implements ItemAdapter.ItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+        getSupportActionBar().setTitle("My Cart");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ItemList = new ArrayList<Item>();
         ItemList.add(new Item("HP Envy 15 Laptop","Available","30000","25000"));
         ItemList.add(new Item("ASUS LTX08 Laptop","Sold out","55000","38999"));
@@ -64,5 +66,9 @@ public class ShopActivity extends AppCompatActivity implements ItemAdapter.ItemS
     @Override
     public void itemClicked(int index) {
 
+    }
+    @Override
+    public void onBackPressed(){
+        return;
     }
 }

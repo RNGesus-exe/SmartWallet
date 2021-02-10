@@ -19,6 +19,8 @@ public class QrcodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
+        getSupportActionBar().setTitle("QrCode");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        init();
 
         btnGenerate.setOnClickListener(v -> {
@@ -47,6 +49,10 @@ public class QrcodeActivity extends AppCompatActivity {
         btnGenerate = findViewById(R.id.btnGenerate);
         btnScan = findViewById(R.id.btnScan);
         ivQR = findViewById(R.id.ivQR);
+    }
+    @Override
+    public void onBackPressed(){
+        return;
     }
 
 

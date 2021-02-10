@@ -25,6 +25,8 @@ public class OutcomeRecyclerView extends AppCompatActivity{
         recycler_view=findViewById(R.id.rv_outcome);
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
+        getSupportActionBar().setTitle("Outcome");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FirebaseRecyclerOptions<Outcome> options =
                 new FirebaseRecyclerOptions.Builder<Outcome>()
@@ -47,6 +49,10 @@ public class OutcomeRecyclerView extends AppCompatActivity{
     protected void onStop() {
         super.onStop();
         outcome_adapter.stopListening();
+    }
+    @Override
+    public void onBackPressed(){
+        return;
     }
 }
 

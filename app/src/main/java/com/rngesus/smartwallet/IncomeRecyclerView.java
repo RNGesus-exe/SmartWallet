@@ -25,6 +25,8 @@ public class IncomeRecyclerView extends AppCompatActivity{
        recyclerView=findViewById(R.id.rv_income);
        recyclerView.setHasFixedSize(true);
        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       getSupportActionBar().setTitle("Income");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        FirebaseRecyclerOptions<Income> options =
                new FirebaseRecyclerOptions.Builder<Income>()
@@ -48,5 +50,9 @@ public class IncomeRecyclerView extends AppCompatActivity{
     protected void onStop() {
         super.onStop();
         income_adapter.stopListening();
+    }
+    @Override
+    public void onBackPressed(){
+        return;
     }
 }

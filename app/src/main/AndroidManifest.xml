@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,20 +15,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartWallet">
-        <activity android:name=".RechargeAccount"/>
-        <activity android:name=".IncomeRecyclerView" />
-        <activity android:name=".OutcomeRecyclerView" />
+        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".SettingActivity"
+            android:parentActivityName=".NavigationActivity"/>
+        <activity android:name=".RechargeAccount" />
+        <activity android:name=".IncomeRecyclerView"
+            android:parentActivityName=".NavigationActivity"/>
+        <activity android:name=".OutcomeRecyclerView"
+            android:parentActivityName=".NavigationActivity"/>
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/Theme.SmartWallet.NoActionBar" />
         <activity android:name=".ForgottenPassword" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".ShopActivity" />
-        <activity android:name=".TransferActivity" />
+        <activity android:name=".ShopActivity"
+            android:parentActivityName=".NavigationActivity"/>
+        <activity android:name=".TransferActivity"
+            android:parentActivityName=".NavigationActivity"/>
         <activity android:name=".generateActivity" />
         <activity android:name=".scanActivity" />
-        <activity android:name=".QrcodeActivity" />
+        <activity android:name=".QrcodeActivity"
+            android:parentActivityName=".NavigationActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

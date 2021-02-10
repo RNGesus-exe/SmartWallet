@@ -44,6 +44,8 @@ public class TransferActivity extends AppCompatActivity {
         etConfirmAmount = findViewById(R.id.etConfirmAmount);
         btnTransfer = findViewById(R.id.btnTransfer);
 
+        getSupportActionBar().setTitle("Transfer Cash");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnTransfer.setOnClickListener(v -> {
             ReceiverEmail = etEmail.getText().toString();
@@ -67,6 +69,10 @@ public class TransferActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        return;
+    }
     public boolean checkEmail(String email)
     {
 
@@ -132,5 +138,6 @@ public class TransferActivity extends AppCompatActivity {
             transaction.update(receiverDocRef, "Amount", newRAmount);
             return null;
         }).addOnCompleteListener(task -> Toast.makeText(TransferActivity.this,"Complete",Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(TransferActivity.this,"failed transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
+
     }
 }

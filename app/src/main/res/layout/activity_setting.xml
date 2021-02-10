@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_setting"
+        android:layout_width="93dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="72dp"
+        android:contentDescription="@string/nav_header_desc"
+        android:elevation="3dp"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@mipmap/oip2"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
+        android:onClick="Setimage"
+        android:text="Add image"
+        android:textAllCaps="true"
+        android:textColor="#FD0D0D"
+        app:layout_constraintEnd_toEndOf="@+id/profile_setting"
+        app:layout_constraintStart_toStartOf="@+id/profile_setting"
+        app:layout_constraintTop_toBottomOf="@+id/profile_setting" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/white"
+        android:text="Remove"
+        android:textAllCaps="true"
+        android:textColor="#FD0D0D"
+        android:onClick="Remove"
+        app:layout_constraintEnd_toEndOf="@+id/addimg"
+        app:layout_constraintStart_toStartOf="@+id/addimg"
+        app:layout_constraintTop_toBottomOf="@+id/addimg" />
+
+    <EditText
+        android:id="@+id/NameS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#F11010"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addimg" />
+
+    <EditText
+        android:id="@+id/NewEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:backgroundTint="#F11010"
+        android:hint="Email address"
+        android:textColorHint="@color/black"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NameS" />
+
+    <Button
+        android:id="@+id/updateemail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="24dp"
+        android:text="Update"
+        android:onClick="updateEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NewEmail" />
+
+    <TextView
+        android:id="@+id/chagnepass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Click here to Change Password"
+        android:textAllCaps="true"
+        android:textColor="#F40606"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/NewEmail"
+        app:layout_constraintTop_toBottomOf="@+id/NewEmail" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

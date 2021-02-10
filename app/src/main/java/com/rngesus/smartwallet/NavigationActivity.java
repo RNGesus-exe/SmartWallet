@@ -48,15 +48,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private CircleImageView profileimg;
+    public CircleImageView profileimg;
     private TextView pname,pemail;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
     String user;
     Intent intent;
-    ImageView photos;
+    private static ImageView photos;
     int key=0;
+    UploadPhoto uploadPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,9 @@ public class NavigationActivity extends AppCompatActivity {
         photos=view.findViewById(R.id.addimage);
         storageReference= FirebaseStorage.getInstance().getReference();
         firebaseAuth=FirebaseAuth.getInstance();
-        StorageReference profile=storageReference.child("user/"+firebaseAuth.getCurrentUser().getUid()+"profile.jpg");
+        uploadPhoto=new UploadPhoto();
+        uploadPhoto.onStart(NavigationActivity.this,profileimg);
+       /* StorageReference profile=storageReference.child("user/"+firebaseAuth.getCurrentUser().getUid()+"profile.jpg");
         profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -82,7 +85,7 @@ public class NavigationActivity extends AppCompatActivity {
                         .into(profileimg);
 
             }
-        });
+        });*/
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -129,6 +132,8 @@ public class NavigationActivity extends AppCompatActivity {
                         break;
                     case R.id.Setting:
                         Toast.makeText(NavigationActivity.this, "Setting", Toast.LENGTH_SHORT).show();
+                        intent= new Intent(NavigationActivity.this,SettingActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.logout:
                         SharedPref sharedPref= new SharedPref();
@@ -160,32 +165,15 @@ public class NavigationActivity extends AppCompatActivity {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 Uri selectedImage = data.getData();
-                uploadimage(selectedImage);
+                uploadPhoto=new UploadPhoto();
+                uploadPhoto.Uploadimage(selectedImage,NavigationActivity.this,profileimg);
             }
         }
     }
 
-    private void uploadimage(Uri selectedImage) {
-        StorageReference fileref=storageReference.child("user/"+firebaseAuth.getCurrentUser().getUid()+"profile.jpg");
-        fileref.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(NavigationActivity.this)
-                                .load(uri)
-                                .into(profileimg);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(NavigationActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
+
+
 
     @Override
     protected void onStart() {
