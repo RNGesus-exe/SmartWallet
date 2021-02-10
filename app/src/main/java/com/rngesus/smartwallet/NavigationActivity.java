@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,8 +15,12 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -36,8 +41,14 @@ public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     public CircleImageView profileimg;
-    private TextView pname,pemail;
-    FirebaseAuth firebaseAuth;
+    private TextView pname,pemail,etBalance;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference ProfileRef = db.collection("USERS");
+    String email;
+    int amount;
+    int UserAmount = 0;
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
     String user;
@@ -63,6 +74,7 @@ public class NavigationActivity extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         uploadPhoto=new UploadPhoto();
         uploadPhoto.onStart(NavigationActivity.this,profileimg);
+
        /* StorageReference profile=storageReference.child("user/"+firebaseAuth.getCurrentUser().getUid()+"profile.jpg");
         profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -79,6 +91,8 @@ public class NavigationActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
                 .build();
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -144,6 +158,35 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public int loadUserBalance()
+    {
+
+
+        Query query;
+        query = ProfileRef.orderBy("email");
+        query.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Profile profile = documentSnapshot.toObject(Profile.class);
+
+                        email = profile.getEmail();
+
+                        amount = profile.getAmount();
+
+                        if (userEmail.equalsIgnoreCase(email)) {
+                        UserAmount = amount;
+                        }
+
+                    }
+
+
+                }).addOnFailureListener(e -> Toast.makeText(this,"failed to get query results",Toast.LENGTH_SHORT).show());
+
+        return UserAmount;
     }
 
     @Override
