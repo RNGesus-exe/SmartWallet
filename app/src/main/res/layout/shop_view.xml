@@ -10,18 +10,6 @@
 
     >
 
-    <TextView
-        android:id="@+id/etItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#1C1C1C"
-        android:gravity="center"
-        android:text="Name"
-        android:textColor="#FFFFFF"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="20sp" />
-
     <ImageView
         android:id="@+id/album"
         android:layout_width="220dp"
@@ -32,72 +20,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/etOriginalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#1C1C1C"
-            android:text="OrgPrice"
-            android:textColor="#FFFFFF"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textIsSelectable="false"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/etPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
-            android:background="#1C1C1C"
-            android:text="salePrice"
-            android:textColor="#FFFFFF"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/etStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
-            android:background="#1C1C1C"
-            android:text="status"
-            android:textColor="#FFFFFF"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="14sp" />
-
-    </LinearLayout>
+        android:orientation="horizontal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#403D3D"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Add to Cart"
-            android:textSize="18sp"
-            android:textStyle="bold|italic" />
-
-        <ImageView
-            android:id="@+id/ivCart"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_cart2" />
-    </LinearLayout>
+        android:orientation="horizontal"/>
 
 </LinearLayout>
 

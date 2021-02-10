@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/tv_income"
+            android:id="@+id/tv_price"
             android:icon="@drawable/logo"
             android:title="Credit" />
         <item

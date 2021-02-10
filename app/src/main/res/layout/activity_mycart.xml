@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Mycart">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mycart"
+        android:layout_width="410dp"
+        android:layout_height="497dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt7"
+        android:layout_width="166dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="Total price"
+        android:textAllCaps="true"
+        android:textColor="#EC1010"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/purchase"
+        android:layout_width="227dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="40dp"
+        android:text="Click to purchase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintStart_toEndOf="@+id/txt7"
+        app:layout_constraintTop_toBottomOf="@+id/mycart" />
+</androidx.constraintlayout.widget.ConstraintLayout>

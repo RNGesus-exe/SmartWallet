@@ -38,10 +38,10 @@ public class IncomeAdapter extends FirebaseRecyclerAdapter<Income, IncomeAdapter
         TextView tvDate, tvAmount, tvSender, tvTime;
         public IncomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvDate=itemView.findViewById(R.id.tv_date);
-            tvTime=itemView.findViewById(R.id.tv_time);
-            tvSender=itemView.findViewById(R.id.tv_sender);
-            tvAmount=itemView.findViewById(R.id.tv_income);
+            tvDate=itemView.findViewById(R.id.proName);
+            tvTime=itemView.findViewById(R.id.tv_Amount);
+            tvSender=itemView.findViewById(R.id.receiver);
+            tvAmount=itemView.findViewById(R.id.tv_price);
         }
     }
 }
