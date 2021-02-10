@@ -177,23 +177,5 @@ public void dialoge()
 
     dialog.show();
 }
-    public void recharge50(View view) {
-       readDocument(50);
-    }
-    public void recharge100(View view) {
-        readDocument(100);
-
-    }
-    public void recharge500(View view) {
-        readDocument(500);
-
-    }
-    public void recharge1000(View view) {
-        readDocument(1000);
-    }
-    public void recharge5000(View view) {
-        readDocument(5000);
-    }
-
 
 }
