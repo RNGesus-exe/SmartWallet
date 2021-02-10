@@ -19,16 +19,16 @@ public class Firebase {
     private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference ProfileRef = db.collection("USERS");
-    private CollectionReference CardRef = db.collection("USERS");
+    private CollectionReference CardRef = db.collection("Cards");
     private DocumentReference userDocRef; // delete this.
     private DocumentReference receiverDocRef;
-    private DocumentReference cardDocRef;
+    public DocumentReference cardDocRef;
     String ReceiverEmail; // delete this.
     String email; // global var used in for each loop
-    String CardID;
-    int CardAmount;
-    int amount;
-    boolean EmailFlag = true; // delete this.
+    String CardID="";
+    int CardAmount=0;
+    int amount=0;
+    boolean pinFlag = true; // delete this.
     boolean AmountFlag = false; // delete this.
 
     public void loadCardsData(String ID, Context context)
@@ -41,14 +41,22 @@ public class Firebase {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             Cards card = documentSnapshot.toObject(Cards.class);
-                            CardID = card.ID;
-                            amount = card.recharge;
+                            CardID = card.getID();
+                            amount = card.getRecharge();
                             if (ID.equalsIgnoreCase(CardID)) {
                                 cardDocRef = documentSnapshot.getReference();
                                 CardAmount = amount;
                             }
                         }
-
+                        if (amount == 0)
+                        {
+                            Toast.makeText(context,"Invalid pin",Toast.LENGTH_SHORT).show();
+                            pinFlag = false;
+                        }
+                        else
+                        {
+                            pinFlag = true;
+                        }
                     }
                 }).addOnFailureListener(e -> Toast.makeText(context,"failed to get query results",Toast.LENGTH_SHORT).show());
     }
@@ -65,9 +73,7 @@ public class Firebase {
                         Profile profile = documentSnapshot.toObject(Profile.class);
 
                         email = profile.getEmail();
-
                         amount = profile.getAmount();
-
 
                         if (REmail.equalsIgnoreCase(email))
                         {
@@ -78,10 +84,11 @@ public class Firebase {
                     }
 
                 }).addOnFailureListener(e -> Toast.makeText(context,"failed to get query results",Toast.LENGTH_SHORT).show());
+
         return receiverDocRef;
     }
 
-    private void executeCardTransaction(Context context, DocumentReference receiverDocRef) {
+    public void executeCardTransaction(Context context, DocumentReference receiverDocRef) {
         db.runTransaction((Transaction.Function<Integer>) transaction -> {
             DocumentSnapshot CardSnapshot = transaction.get(cardDocRef);
             DocumentSnapshot RSnapshot = transaction.get(receiverDocRef);
