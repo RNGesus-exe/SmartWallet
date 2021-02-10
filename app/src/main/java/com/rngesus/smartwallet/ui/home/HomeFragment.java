@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
@@ -39,7 +37,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         bannersliderviewpager=view.findViewById(R.id.bannerview_pager);
-        balance=view.findViewById(R.id.balance);
+        balance=view.findViewById(R.id.etBalance);
         slider_classes=new ArrayList<slider_class>();
 
         slider_classes.add(new slider_class(R.drawable.macmobile));
