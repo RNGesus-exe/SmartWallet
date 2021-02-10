@@ -6,35 +6,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/tv_price"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/plus"
             android:title="Credit" />
         <item
             android:id="@+id/Outcome"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_card"
             android:title="Debit" />
         <item
             android:id="@+id/cart"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
             android:title="Shop" />
         <item
             android:id="@+id/Transfer"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_transfer_cash__1_"
             android:title="Transfer Cash" />
         <item
             android:id="@+id/Recharge"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_download__1_"
             android:title="Recharge Acc" />
         <item
             android:id="@+id/QR"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_baseline_qr_code_24"
             android:title="QR Code" />
         <item
             android:id="@+id/Setting"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_baseline_settings_24"
             android:title="Setting" />
         <item
             android:id="@+id/logout"
-            android:icon="@drawable/logo"
+            android:icon="@drawable/ic_logout"
             android:title="Logout" />
 
 
