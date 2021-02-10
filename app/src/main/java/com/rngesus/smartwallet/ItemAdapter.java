@@ -35,11 +35,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MAdapter> {
     public void onBindViewHolder(@NonNull MAdapter holder, int position) {
         int image_id = images[position];
         holder.itemView.setTag(items.get(position));
-        holder.etItemName.setText(items.get(position).getItemName());
+       /* holder.etItemName.setText(items.get(position).getItemName());
         holder.etOriginalPrice.setText(items.get(position).getOriginalPrice());
         holder.etOriginalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.etPrice.setText((items.get(position).getDiscountPrice()));
-        holder.etStatus.setText(items.get(position).getItemStatus());
+        holder.etStatus.setText(items.get(position).getItemStatus());*/
         holder.album.setImageResource(image_id);
     }
 
@@ -61,24 +61,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MAdapter> {
         ImageView ivCart;
         public MAdapter(@NonNull View itemView) {
             super(itemView);
-            etItemName = itemView.findViewById(R.id.etItemName);
-            etOriginalPrice = itemView.findViewById(R.id.etOriginalPrice);
-            etPrice = itemView.findViewById(R.id.etPrice);
-            etStatus = itemView.findViewById(R.id.etStatus);
             album = itemView.findViewById(R.id.album);
-            ivCart = itemView.findViewById(R.id.ivCart);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     activityContext.itemClicked(items.indexOf((Item) itemView.getTag()));
                 }
             });
-            ivCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
         }
 
     }

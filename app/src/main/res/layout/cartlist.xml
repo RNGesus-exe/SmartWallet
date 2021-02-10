@@ -14,9 +14,10 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="7dp"
         app:cardUseCompatPadding="false">
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="407dp"
+            android:layout_height="158dp">
 
 
             <TextView
@@ -24,48 +25,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:text="Time:__________"
+                android:text="Amount:"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/tv_price"
+                app:layout_constraintStart_toStartOf="@+id/tv_price"
+                app:layout_constraintTop_toBottomOf="@+id/tv_price" />
 
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="16dp"
+                android:text="Price"
                 android:textColor="@color/white"
-                android:text="Income:_________"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_Amount" />
+                app:layout_constraintEnd_toEndOf="@+id/receiver"
+                app:layout_constraintStart_toEndOf="@+id/imgpro"
+                app:layout_constraintTop_toBottomOf="@+id/receiver" />
 
             <TextView
                 android:id="@+id/proName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="16dp"
-                android:text="DATE:_____________"
+                android:text="Name:"
                 android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgpro"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/receiver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginTop="12dp"
+                android:text="Available"
                 android:textColor="@color/white"
-                android:text="Sender:___________"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/proName"
+                app:layout_constraintStart_toStartOf="@+id/proName"
                 app:layout_constraintTop_toBottomOf="@+id/proName" />
+
+            <ImageView
+                android:id="@+id/imgpro"
+                android:layout_width="131dp"
+                android:layout_height="124dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/pic12" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
