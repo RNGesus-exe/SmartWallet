@@ -1,12 +1,15 @@
 package com.rngesus.smartwallet;
 
 public class Cards {
-    String ID;
-    int recharge;
+    private  String ID;
+    private int recharge;
 
     public Cards(String ID, int recharge) {
         this.ID = ID;
         this.recharge = recharge;
+    }
+
+    public Cards() {
     }
 
     public String getID() {

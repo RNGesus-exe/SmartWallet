@@ -15,12 +15,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 import com.rngesus.smartwallet.ui.home.HomeFragment;
 
 import java.util.List;
@@ -33,7 +35,8 @@ public class RechargeAccount extends AppCompatActivity {
     private String card;
     String str ="";
     private String rechargeamount;
-    private Firebase fb;
+    private Firebase fb = new Firebase();
+    private DataManager dataManager = new DataManager();
 
 
     @Override
@@ -53,14 +56,26 @@ public class RechargeAccount extends AppCompatActivity {
         String pin = RechargeCode.getText().toString();
         fb.loadCardsData(pin,this);
         docRef =  fb.loadReceiverDocRef(mAuth.getCurrentUser().getEmail(),this);
-        fb.executeCardTransaction(this,docRef);
 
-        if (pin.trim().equals("")) {
+
+        if (pin.equals("")) {
             Toast.makeText(this, "Please Enter Recharge Pin ", Toast.LENGTH_SHORT).show();
         }else
         {
-            //emailAuthentication(strUserName);
+            if(fb.pinFlag) {
+                fb.loadCardsData(pin, this);
+                docRef =  fb.loadReceiverDocRef(mAuth.getCurrentUser().getEmail(),this);
+                if(docRef!=null) {
+                    fb.executeCardTransaction(this, docRef);
+                    dataManager.addOutcomeReceipt("Recharge", DateTime.getDefaultInstance().toString(),Timestamp.now().toString(),"NA","Account Top up",fb.CardAmount+"",view,false);
+                    RechargeCode.setText("");
 
+                }
+                else{
+                    Toast.makeText(this, "Loading Failed please try again ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
 
         }
 
