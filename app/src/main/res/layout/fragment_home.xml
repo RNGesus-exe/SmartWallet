@@ -53,52 +53,26 @@
 
 
     <TextView
-        android:id="@+id/etBalance"
-        android:layout_width="166dp"
-        android:layout_height="83dp"
+        android:id="@+id/balance"
+        android:layout_width="232dp"
+        android:layout_height="74dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="90dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="496dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
+        android:padding="10dp"
+        android:text="100"
+        android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="50dp"
+        android:textSize="40dp"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.895"
+        app:layout_constraintHorizontal_bias="0.618"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/balance2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="90dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="496dp"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:text="Rs."
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="50dp"
-        android:textStyle="italic|bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.268"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.019" />
 
     <View
         android:id="@+id/divider2"
@@ -111,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.637"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBalance">
+        app:layout_constraintTop_toBottomOf="@+id/balance">
 
     </View>
 
@@ -126,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.279"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBalance">
+        app:layout_constraintTop_toBottomOf="@+id/balance">
 
     </View>
 

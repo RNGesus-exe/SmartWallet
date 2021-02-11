@@ -1,6 +1,7 @@
 package com.rngesus.smartwallet;
 
 import android.content.Context;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -97,5 +98,35 @@ public class Firebase {
             transaction.update(receiverDocRef, "Amount", newRAmount);
             return null;
         }).addOnCompleteListener(task -> Toast.makeText(context,"Complete",Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(context,"failed transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
+    }
+
+    public void loadUserBalance(TextView balance,Context context)
+    {
+
+
+
+        Query query;
+        query = ProfileRef.orderBy("email");
+        query.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Profile profile = documentSnapshot.toObject(Profile.class);
+
+
+                            email = profile.getEmail();
+
+                            amount = profile.getAmount();
+
+                            if (userEmail.equalsIgnoreCase(email)) {
+                                balance.setText("RS"+amount);
+                            }
+
+
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(context,"failed to get query results",Toast.LENGTH_SHORT).show());
     }
 }

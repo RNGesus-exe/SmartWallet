@@ -7,12 +7,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.rngesus.smartwallet.Firebase;
+import com.rngesus.smartwallet.Profile;
 import com.rngesus.smartwallet.R;
 import com.rngesus.smartwallet.Slider_Adapter;
 import com.rngesus.smartwallet.slider_class;
@@ -20,6 +30,7 @@ import com.rngesus.smartwallet.slider_class;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HomeFragment extends Fragment {
     private ViewPager bannersliderviewpager;
@@ -28,6 +39,13 @@ public class HomeFragment extends Fragment {
     private Timer timer;
     final private long DELAYTIME = 3000;
     final private long PeriodTIME = 3000;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference ProfileRef = db.collection("USERS");
+    Firebase firebase=new Firebase();
+    String email;
+    int amount;
     public static TextView balance;
 
     private HomeViewModel homeViewModel;
@@ -37,7 +55,12 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         bannersliderviewpager=view.findViewById(R.id.bannerview_pager);
-        balance=view.findViewById(R.id.etBalance);
+        balance=view.findViewById(R.id.balance);
+
+        firebase.loadUserBalance(balance,getContext());
+
+
+
         slider_classes=new ArrayList<slider_class>();
 
         slider_classes.add(new slider_class(R.drawable.macmobile));
@@ -127,6 +150,9 @@ public class HomeFragment extends Fragment {
             }
         },DELAYTIME,PeriodTIME);
     }
+
+
+
 
     private  void pagelooper()
     {

@@ -75,16 +75,14 @@ public class NavigationActivity extends AppCompatActivity {
         uploadPhoto=new UploadPhoto();
         uploadPhoto.onStart(NavigationActivity.this,profileimg);
 
-       /* StorageReference profile=storageReference.child("user/"+firebaseAuth.getCurrentUser().getUid()+"profile.jpg");
-        profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(NavigationActivity.this)
-                        .load(uri)
-                        .into(profileimg);
 
-            }
-        });*/
+
+
+        // Load data of  the User
+        /*int amount=loadUserBalance();*/
+
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -94,6 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
 
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -160,34 +159,7 @@ public class NavigationActivity extends AppCompatActivity {
         });
     }
 
-    public int loadUserBalance()
-    {
 
-
-        Query query;
-        query = ProfileRef.orderBy("email");
-        query.get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-
-
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Profile profile = documentSnapshot.toObject(Profile.class);
-
-                        email = profile.getEmail();
-
-                        amount = profile.getAmount();
-
-                        if (userEmail.equalsIgnoreCase(email)) {
-                        UserAmount = amount;
-                        }
-
-                    }
-
-
-                }).addOnFailureListener(e -> Toast.makeText(this,"failed to get query results",Toast.LENGTH_SHORT).show());
-
-        return UserAmount;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
