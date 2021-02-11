@@ -51,19 +51,31 @@ public class TransferActivity extends AppCompatActivity {
         etAmount = findViewById(R.id.etAmount);
         etConfirmAmount = findViewById(R.id.etConfirmAmount);
         btnTransfer = findViewById(R.id.btnTransfer);
+        fb = new Firebase();
 
         getSupportActionBar().setTitle("Transfer Cash");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnTransfer.setOnClickListener(v -> {
+            if(etAmount.toString().isEmpty()){
+
+                Toast.makeText(TransferActivity.this, " Amount is Empty ", Toast.LENGTH_LONG).show();
+            }
+            else if(etConfirmAmount.toString().isEmpty()){
+
+                Toast.makeText(TransferActivity.this, " Confirm Amount is Empty ", Toast.LENGTH_LONG).show();
+            }else if(etEmail.toString().trim().isEmpty()){
+
+                Toast.makeText(TransferActivity.this, " Email is Empty ", Toast.LENGTH_LONG).show();
+            }
+          else if(etAmount.toString().trim().equals(etConfirmAmount.toString().trim()) ) {
+
             ReceiverEmail = etEmail.getText().toString();
-            if(checkEmail(ReceiverEmail))
-            {
-                DocumentReference  dr = fb.loadReceiverDocRef(ReceiverEmail,v.getContext());
+            if (checkEmail(ReceiverEmail)) {
+                DocumentReference dr = fb.loadReceiverDocRef(ReceiverEmail, v.getContext());
                 loadProfile();
-                if(AmountFlag && dr != null)
-                {
-                    if(amount >= Integer.parseInt(etAmount.getText().toString())) {
+                if (AmountFlag && dr != null) {
+                    if (amount >= Integer.parseInt(etAmount.getText().toString())) {
                         executeTransaction();
                         //--------ADD RECEIPT FUNCTIONS HERE
                         Date currentTime = Calendar.getInstance().getTime();
@@ -82,20 +94,28 @@ public class TransferActivity extends AppCompatActivity {
                         dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, v.getContext()).getId(),
                                 date, time, sender,
                                 "QR Transfer", etAmount.getText().toString(), v, false);
-                    }
-                    else{
+                    } else {
                         Toast.makeText(this, "Insufficient Balance!!", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(TransferActivity.this, " Unable to load data, Try Again.", Toast.LENGTH_LONG).show();
                 }
-                else {
-                    Toast.makeText(TransferActivity.this," Unable to load data, Try Again.",Toast.LENGTH_LONG).show();
-                }
+            } else {
+                Toast.makeText(TransferActivity.this, "Incorrect Receiver Email", Toast.LENGTH_LONG).show();
             }
-            else
-            {
-                Toast.makeText(TransferActivity.this,"Incorrect Receiver Email",Toast.LENGTH_LONG).show();
+
+        }else{
+                Toast.makeText(TransferActivity.this, "Amounts does not match! ", Toast.LENGTH_LONG).show();
             }
+
+
+
+
+
+
         });
+
+
 
     }
 
