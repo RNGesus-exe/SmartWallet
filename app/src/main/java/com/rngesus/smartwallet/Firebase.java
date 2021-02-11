@@ -76,7 +76,7 @@ public class Firebase {
                         email = profile.getEmail();
                         amount = profile.getAmount();
 
-                        if (REmail.equalsIgnoreCase(email))
+                        if (REmail.toLowerCase().trim().equals(email.toLowerCase().trim()))
                         {
                             receiverDocRef = documentSnapshot.getReference();
 

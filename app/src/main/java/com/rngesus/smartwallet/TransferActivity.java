@@ -29,6 +29,7 @@ public class TransferActivity extends AppCompatActivity {
     private CollectionReference ProfileRef = db.collection("USERS");
     private DocumentReference userDocRef;
     private DocumentReference receiverDocRef;
+    Firebase fb = new Firebase();
 
     String ReceiverEmail; // needs to be changed in init()
     String email; // global var used in for each loop
@@ -61,7 +62,8 @@ public class TransferActivity extends AppCompatActivity {
             {
                 if(AmountFlag)
                 {
-                    loadProfile();
+                    if(fb.loadReceiverDocRef(ReceiverEmail,v.getContext()) != null) {
+                        loadProfile();
                     executeTransaction();
                     //--------ADD RECEIPT FUNCTIONS HERE
                     Date currentTime = Calendar.getInstance().getTime();
@@ -69,16 +71,24 @@ public class TransferActivity extends AppCompatActivity {
                     String []allParts = Str.split("\\s+");
                     String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
                     String time = allParts[3];
+                    StringTokenizer tokens = new StringTokenizer(ReceiverEmail,"@");
+                    String receiver = tokens.nextToken();
                     DataManager dataManager = new DataManager();
-                    dataManager.addOutcomeReceipt(ReceiverEmail, date, time,
+                    dataManager.addOutcomeReceipt(receiver, date, time,
                             firebaseAuth.getCurrentUser().getUid()," QR transfer ",etAmount.getText().toString(),v,false);
                     dataManager = new DataManager();
-                    dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),
-                            date, time,firebaseAuth.getCurrentUser().getEmail(),
-                            "QR Transfer", etAmount.getText().toString(), v,false);
+                    tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(),"@");
+                    String sender = tokens.nextToken();
+                    dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, v.getContext()).getId(),
+                                date, time,sender,
+                                "QR Transfer", etAmount.getText().toString(), v, false);
+                    }
+                    else{
+                        Toast.makeText(this, "An Error occurred,Please Try Again", Toast.LENGTH_SHORT).show();
+                    }
                 }else if(!AmountFlag)
                 {
-                    Toast.makeText(TransferActivity.this," Unable to load data, Insufficient funds?",Toast.LENGTH_LONG).show();
+                    Toast.makeText(TransferActivity.this," Unable to load data, Try Again.",Toast.LENGTH_LONG).show();
                 }
             }
             else
@@ -127,14 +137,7 @@ public class TransferActivity extends AppCompatActivity {
                         if (userEmail.equalsIgnoreCase(email)) {
                             userDocRef = documentSnapshot.getReference();
 
-                            if(amount >= Integer.parseInt(etAmount.getText().toString()))
-                            {
-                                AmountFlag = true;
-                            }
-                            else
-                            {
-                                AmountFlag = false;
-                            }
+                            AmountFlag = amount >= Integer.parseInt(etAmount.getText().toString());
 
                         }
                         if (ReceiverEmail.equalsIgnoreCase(email))
