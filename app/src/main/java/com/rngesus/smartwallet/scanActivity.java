@@ -159,7 +159,7 @@ public class scanActivity extends AppCompatActivity {
                         {
                             receiverDocRef = documentSnapshot.getReference();
                         }
-                        //check  comma separated value from qr scan
+
                     }
 
                 }).addOnFailureListener(e -> Toast.makeText(scanActivity.this,"failed to get query results",Toast.LENGTH_SHORT).show());
@@ -170,12 +170,17 @@ public class scanActivity extends AppCompatActivity {
         executeTransaction();
         //--------ADD RECEIPT FUNCTIONS HERE
         Date currentTime = Calendar.getInstance().getTime();
+        String Str = currentTime.toString();
+        String []allParts = Str.split("\\s+");
+        String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
+        String time = allParts[3];
+
         DataManager dataManager = new DataManager();
-        dataManager.addOutcomeReceipt(ReceiverEmail, currentTime.toString(), Timestamp.now().toString(),
+        dataManager.addOutcomeReceipt(ReceiverEmail, date, time,
                 firebaseAuth.getCurrentUser().getUid()," QR transfer ",TransferAmount,view,false);
         dataManager = new DataManager();
         dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),
-                currentTime.toString(), Timestamp.now().toString(),firebaseAuth.getCurrentUser().getEmail(),
+                date, time,firebaseAuth.getCurrentUser().getEmail(),
                 "QR Transfer", TransferAmount, view,false);
     }
 

@@ -19,6 +19,7 @@ import com.google.firebase.firestore.Transaction;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.StringTokenizer;
 
 public class TransferActivity extends AppCompatActivity {
 
@@ -64,16 +65,20 @@ public class TransferActivity extends AppCompatActivity {
                     executeTransaction();
                     //--------ADD RECEIPT FUNCTIONS HERE
                     Date currentTime = Calendar.getInstance().getTime();
+                    String Str = currentTime.toString();
+                    String []allParts = Str.split("\\s+");
+                    String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
+                    String time = allParts[3];
                     DataManager dataManager = new DataManager();
-                    dataManager.addOutcomeReceipt(ReceiverEmail, currentTime.toString(), Timestamp.now().toString(),
+                    dataManager.addOutcomeReceipt(ReceiverEmail, date, time,
                             firebaseAuth.getCurrentUser().getUid()," QR transfer ",etAmount.getText().toString(),v,false);
                     dataManager = new DataManager();
                     dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),
-                            currentTime.toString(), Timestamp.now().toString(),firebaseAuth.getCurrentUser().getEmail(),
+                            date, time,firebaseAuth.getCurrentUser().getEmail(),
                             "QR Transfer", etAmount.getText().toString(), v,false);
                 }else if(!AmountFlag)
                 {
-                    Toast.makeText(TransferActivity.this," Insufficient funds",Toast.LENGTH_LONG).show();
+                    Toast.makeText(TransferActivity.this," Unable to load data, Insufficient funds?",Toast.LENGTH_LONG).show();
                 }
             }
             else
