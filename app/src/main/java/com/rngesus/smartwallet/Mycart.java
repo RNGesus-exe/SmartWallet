@@ -1,5 +1,6 @@
 package com.rngesus.smartwallet;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,6 +25,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.StringTokenizer;
 
 public class Mycart extends AppCompatActivity {
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -69,8 +76,18 @@ public class Mycart extends AppCompatActivity {
                 if (loadUserBalance() >= getTotalprice()) {
 
                      {
-                        executeTransaction();
-                        // add here
+                         View view = null;
+                         executeTransaction();
+                         Date currentTime = Calendar.getInstance().getTime();
+                         String Str = currentTime.toString();
+                         String []allParts = Str.split("\\s+");
+                         String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
+                         String time = allParts[3];
+                         DataManager dataManager = new DataManager();
+                         dataManager.addOutcomeReceipt("Shop", date, time, firebaseAuth.getCurrentUser().getUid(),"Checkout ",getTotalprice()+"",view,false);
+
+
+
                     }
                 }
 
@@ -114,7 +131,13 @@ public class Mycart extends AppCompatActivity {
             Long newUserAmount = senderSnapshot.getLong("Amount") - (getTotalprice());
             transaction.update(userDocRef, "Amount", newUserAmount);
             return null;
-        }).addOnCompleteListener(task -> Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(this, "failed transfer" + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }).addOnCompleteListener(new OnCompleteListener<Integer>() {
+            @Override
+            public void onComplete(@NonNull Task<Integer> task) {
+                Toast.makeText(Mycart.this, "Complete", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(e -> Toast.makeText(this, "failed transfer" + e.getMessage(), Toast.LENGTH_SHORT).show());
 
     }
 }
