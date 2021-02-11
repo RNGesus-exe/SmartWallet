@@ -56,6 +56,7 @@ public class scanActivity extends AppCompatActivity {
     String TransferAmount;
     String REmail;
     String RName;
+    Firebase fb = new Firebase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +167,6 @@ public class scanActivity extends AppCompatActivity {
     }
     public void btnClicked(View view)
     {
-        Firebase fb = new Firebase();
         if(fb.loadReceiverDocRef(ReceiverEmail, view.getContext()) != null) {
             loadData();
             executeTransaction();
