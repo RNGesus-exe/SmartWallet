@@ -84,7 +84,6 @@ public class RechargeAccount extends AppCompatActivity {
                     dataManager.addIncomeReceipt(FirebaseAuth.getInstance().getCurrentUser().getUid(),
                             date, time, "Recharge Retailer",
                             "QR Transfer",String.valueOf(fb.recharge_amount), view, false);
-                    dataManager.addOutcomeReceipt("Recharge", DateTime.getDefaultInstance().toString(),Timestamp.now().toString(),"NA","Account Top up",fb.CardAmount+"",view,false);
                     RechargeCode.setText("");
 
                 }

@@ -57,18 +57,18 @@ public class TransferActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnTransfer.setOnClickListener(v -> {
-            if(etAmount.toString().isEmpty()){
+            if(etAmount.getText().toString().isEmpty()){
 
                 Toast.makeText(TransferActivity.this, " Amount is Empty ", Toast.LENGTH_LONG).show();
             }
-            else if(etConfirmAmount.toString().isEmpty()){
+            else if(etConfirmAmount.getText().toString().isEmpty()){
 
                 Toast.makeText(TransferActivity.this, " Confirm Amount is Empty ", Toast.LENGTH_LONG).show();
-            }else if(etEmail.toString().trim().isEmpty()){
+            }else if(etEmail.getText().toString().trim().isEmpty()){
 
                 Toast.makeText(TransferActivity.this, " Email is Empty ", Toast.LENGTH_LONG).show();
             }
-          else if(etAmount.toString().trim().equals(etConfirmAmount.toString().trim()) ) {
+          else if(etAmount.getText().toString().trim().equals(etConfirmAmount.getText().toString().trim()) ) {
 
             ReceiverEmail = etEmail.getText().toString();
             if (checkEmail(ReceiverEmail)) {
@@ -94,6 +94,9 @@ public class TransferActivity extends AppCompatActivity {
                         dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, v.getContext()).getId(),
                                 date, time, sender,
                                 "QR Transfer", etAmount.getText().toString(), v, false);
+                        etAmount.setText("");
+                        etConfirmAmount.setText("");
+                        etEmail.setText("");
                     } else {
                         Toast.makeText(this, "Insufficient Balance!!", Toast.LENGTH_SHORT).show();
                     }
