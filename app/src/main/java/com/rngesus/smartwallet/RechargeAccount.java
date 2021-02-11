@@ -43,6 +43,8 @@ public class RechargeAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge_account);
+        getSupportActionBar().setTitle("Recharge");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RechargeCode = findViewById(R.id.etRechargeCode);
         btn = findViewById(R.id.recharge);
         mAuth = FirebaseAuth.getInstance();

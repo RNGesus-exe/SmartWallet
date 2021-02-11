@@ -20,7 +20,8 @@
         <activity
             android:name=".SettingActivity"
             android:parentActivityName=".NavigationActivity" />
-        <activity android:name=".RechargeAccount" />
+        <activity android:name=".RechargeAccount"
+            android:parentActivityName=".NavigationActivity" />
         <activity
             android:name=".IncomeRecyclerView"
             android:parentActivityName=".NavigationActivity" />
