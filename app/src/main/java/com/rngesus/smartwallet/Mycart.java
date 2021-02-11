@@ -76,17 +76,16 @@ public class Mycart extends AppCompatActivity {
                 if (loadUserBalance() >= getTotalprice()) {
 
                      {
-                         View view = null;
                          executeTransaction();
                          Date currentTime = Calendar.getInstance().getTime();
                          String Str = currentTime.toString();
-                         String []allParts = Str.split("\\s+");
-                         String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
+                         String[] allParts = Str.split("\\s+");
+                         String date = allParts[0] + ", " + allParts[1] + ", " + allParts[2];
                          String time = allParts[3];
                          DataManager dataManager = new DataManager();
-                         dataManager.addOutcomeReceipt("Shop", date, time, firebaseAuth.getCurrentUser().getUid(),"Checkout ",getTotalprice()+"",view,false);
-
-
+                         dataManager.addOutcomeReceipt("Shop", date, time,
+                                 firebaseAuth.getCurrentUser().getUid(), " You bought stuff from shop ",
+                                 String.valueOf(getTotalprice()), v, false);
 
                     }
                 }
