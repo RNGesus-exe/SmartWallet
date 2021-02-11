@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Enter the transfer amount "
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textColor="#FFFFFF"
         android:textColorHint="#A39C9C" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Confirm transfer amount "
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textColor="#FFFFFF"
         android:textColorHint="#A39C9C" />
 
