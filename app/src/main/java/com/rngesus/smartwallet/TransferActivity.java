@@ -57,43 +57,43 @@ public class TransferActivity extends AppCompatActivity {
 
         btnTransfer.setOnClickListener(v -> {
             ReceiverEmail = etEmail.getText().toString();
-            loadProfile();
             if(checkEmail(ReceiverEmail))
             {
-                if(AmountFlag)
+                DocumentReference  dr = fb.loadReceiverDocRef(ReceiverEmail,v.getContext());
+                loadProfile();
+                if(AmountFlag && dr != null)
                 {
-                    if(fb.loadReceiverDocRef(ReceiverEmail,v.getContext()) != null) {
-                        loadProfile();
-                    executeTransaction();
-                    //--------ADD RECEIPT FUNCTIONS HERE
-                    Date currentTime = Calendar.getInstance().getTime();
-                    String Str = currentTime.toString();
-                    String []allParts = Str.split("\\s+");
-                    String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
-                    String time = allParts[3];
-                    StringTokenizer tokens = new StringTokenizer(ReceiverEmail,"@");
-                    String receiver = tokens.nextToken();
-                    DataManager dataManager = new DataManager();
-                    dataManager.addOutcomeReceipt(receiver, date, time,
-                            firebaseAuth.getCurrentUser().getUid()," QR transfer ",etAmount.getText().toString(),v,false);
-                    dataManager = new DataManager();
-                    tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(),"@");
-                    String sender = tokens.nextToken();
-                    dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, v.getContext()).getId(),
-                                date, time,sender,
+                    if(amount >= Integer.parseInt(etAmount.getText().toString())) {
+                        executeTransaction();
+                        //--------ADD RECEIPT FUNCTIONS HERE
+                        Date currentTime = Calendar.getInstance().getTime();
+                        String Str = currentTime.toString();
+                        String[] allParts = Str.split("\\s+");
+                        String date = allParts[0] + ", " + allParts[1] + ", " + allParts[2];
+                        String time = allParts[3];
+                        StringTokenizer tokens = new StringTokenizer(ReceiverEmail, "@");
+                        String receiver = tokens.nextToken();
+                        DataManager dataManager = new DataManager();
+                        dataManager.addOutcomeReceipt(receiver, date, time,
+                                firebaseAuth.getCurrentUser().getUid(), " QR transfer ", etAmount.getText().toString(), v, false);
+                        dataManager = new DataManager();
+                        tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(), "@");
+                        String sender = tokens.nextToken();
+                        dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, v.getContext()).getId(),
+                                date, time, sender,
                                 "QR Transfer", etAmount.getText().toString(), v, false);
                     }
                     else{
-                        Toast.makeText(this, "An Error occurred,Please Try Again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Insufficient Balance!!", Toast.LENGTH_SHORT).show();
                     }
-                }else if(!AmountFlag)
-                {
+                }
+                else {
                     Toast.makeText(TransferActivity.this," Unable to load data, Try Again.",Toast.LENGTH_LONG).show();
                 }
             }
             else
-                {
-                       Toast.makeText(TransferActivity.this,"Incorrect Receiver Email",Toast.LENGTH_LONG).show();
+            {
+                Toast.makeText(TransferActivity.this,"Incorrect Receiver Email",Toast.LENGTH_LONG).show();
             }
         });
 
