@@ -30,7 +30,7 @@ public class Firebase {
     int CardAmount=0;
     int amount=0;
     boolean pinFlag = true; // delete this.
-    boolean AmountFlag = false; // delete this.
+    int recharge_amount = 0;
 
     public void loadCardsData(String ID, Context context)
     {
@@ -43,13 +43,13 @@ public class Firebase {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             Cards card = documentSnapshot.toObject(Cards.class);
                             CardID = card.getID();
-                            amount = card.getRecharge();
+                            recharge_amount = card.getRecharge();
                             if (ID.equalsIgnoreCase(CardID)) {
                                 cardDocRef = documentSnapshot.getReference();
-                                CardAmount = amount;
+                                CardAmount = recharge_amount;
                             }
                         }
-                        if (amount == 0)
+                        if (recharge_amount == 0)
                         {
                             Toast.makeText(context,"Invalid pin",Toast.LENGTH_SHORT).show();
                             pinFlag = false;
@@ -94,7 +94,6 @@ public class Firebase {
             DocumentSnapshot CardSnapshot = transaction.get(cardDocRef);
             DocumentSnapshot RSnapshot = transaction.get(receiverDocRef);
             Long newRAmount = RSnapshot.getLong("Amount") + CardSnapshot.getLong("recharge");
-            transaction.update(cardDocRef, "recharge",0);
             transaction.update(receiverDocRef, "Amount", newRAmount);
             return null;
         }).addOnCompleteListener(task -> Toast.makeText(context,"Complete",Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(context,"failed transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
