@@ -124,6 +124,8 @@ btn.setOnClickListener(new View.OnClickListener() {
 
             }
         });
+
+        //For Decrement of Amount
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,11 +141,17 @@ btn.setOnClickListener(new View.OnClickListener() {
         addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ItemList.get(index).getItemStatus().equals("Sold out"))
+                {
+                    Toast.makeText(ShopActivity.this, "This product is not available at the moment", Toast.LENGTH_SHORT).show();
+                }
+                else {
 
-                Toast.makeText(ShopActivity.this, "Happy shopping", Toast.LENGTH_SHORT).show();
-                int img=images[index];
-                whislist_dataArray.add(new Whislist_data(img,ItemList.get(index).getItemName(),ItemList.get(index).getItemStatus(), (String) DPrice.getText(), (String) total.getText()));
-                dialog.dismiss();
+                    Toast.makeText(ShopActivity.this, "Happy shopping", Toast.LENGTH_SHORT).show();
+                    int img = images[index];
+                    whislist_dataArray.add(new Whislist_data(img, ItemList.get(index).getItemName(), ItemList.get(index).getItemStatus(), (String) DPrice.getText(), (String) total.getText()));
+                    dialog.dismiss();
+                }
             }
         });
        dialog.show();

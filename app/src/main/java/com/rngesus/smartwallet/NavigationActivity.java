@@ -188,6 +188,7 @@ public class NavigationActivity extends AppCompatActivity {
                 pname.setText(documentSnapshot.getString("fullname"));
                 pemail.setText(documentSnapshot.getString("email"));
 
+
             }
         });
 
