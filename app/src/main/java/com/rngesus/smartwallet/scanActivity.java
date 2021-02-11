@@ -166,22 +166,32 @@ public class scanActivity extends AppCompatActivity {
     }
     public void btnClicked(View view)
     {
-        loadData();
-        executeTransaction();
-        //--------ADD RECEIPT FUNCTIONS HERE
-        Date currentTime = Calendar.getInstance().getTime();
-        String Str = currentTime.toString();
-        String []allParts = Str.split("\\s+");
-        String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
-        String time = allParts[3];
+        Firebase fb = new Firebase();
+        if(fb.loadReceiverDocRef(ReceiverEmail, view.getContext()) != null) {
+            loadData();
+            executeTransaction();
+            //--------ADD RECEIPT FUNCTIONS HERE
+            Date currentTime = Calendar.getInstance().getTime();
+            String Str = currentTime.toString();
+            String[] allParts = Str.split("\\s+");
+            String date = allParts[0] + ", " + allParts[1] + ", " + allParts[2];
+            String time = allParts[3];
+            StringTokenizer tokens = new StringTokenizer(ReceiverEmail, "@");
+            String receiver = tokens.nextToken();
+            DataManager dataManager = new DataManager();
+            dataManager.addOutcomeReceipt(receiver, date, time,
+                    firebaseAuth.getCurrentUser().getUid(), " QR Transfer ", TransferAmount, view, false);
+            dataManager = new DataManager();
+            tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(), "@");
+            String sender = tokens.nextToken();
+            dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, view.getContext()).getId(),
+                    date, time, sender,
+                    "QR Transfer", TransferAmount, view, false);
+        }
+        else{
+            Toast.makeText(this, "An error occured please try again!!", Toast.LENGTH_SHORT).show();
+        }
 
-        DataManager dataManager = new DataManager();
-        dataManager.addOutcomeReceipt(ReceiverEmail, date, time,
-                firebaseAuth.getCurrentUser().getUid()," QR transfer ",TransferAmount,view,false);
-        dataManager = new DataManager();
-        dataManager.addIncomeReceipt(firebaseAuth.getCurrentUser().getUid(),
-                date, time,firebaseAuth.getCurrentUser().getEmail(),
-                "QR Transfer", TransferAmount, view,false);
     }
 
     @Override
