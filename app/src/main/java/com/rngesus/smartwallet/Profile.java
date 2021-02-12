@@ -15,6 +15,11 @@ public class Profile {
         this.documentId = documentId;
     }
 
+    public Profile(String docId, int amount) {
+        this.Amount = amount;
+        this.documentId = docId;
+    }
+
     public Profile() {
     }
 
