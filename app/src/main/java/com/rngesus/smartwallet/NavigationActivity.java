@@ -115,7 +115,7 @@ public class NavigationActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.Recharge:
-                        intent = new Intent(NavigationActivity.this, RechargeAccount.class);
+                        intent = new Intent(NavigationActivity.this, RechargeActivity.class);
                         startActivity(intent);
                         Toast.makeText(NavigationActivity.this, "Recharge Acc", Toast.LENGTH_SHORT).show();
                         break;
