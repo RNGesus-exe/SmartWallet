@@ -32,35 +32,6 @@ public class Firebase {
     boolean pinFlag = true; // delete this.
     int recharge_amount = 0;
 
-    public void loadCardsData(String ID, Context context)
-    {
-        Query query;
-        query = CardRef.orderBy("ID");
-        query.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Cards card = documentSnapshot.toObject(Cards.class);
-                            CardID = card.getID();
-                            recharge_amount = card.getRecharge();
-                            if (ID.equalsIgnoreCase(CardID)) {
-                                cardDocRef = documentSnapshot.getReference();
-                                CardAmount = recharge_amount;
-                            }
-                        }
-                        if (recharge_amount == 0)
-                        {
-                            Toast.makeText(context,"Invalid pin",Toast.LENGTH_SHORT).show();
-                            pinFlag = false;
-                        }
-                        else
-                        {
-                            pinFlag = true;
-                        }
-                    }
-                }).addOnFailureListener(e -> Toast.makeText(context,"failed to get query results",Toast.LENGTH_SHORT).show());
-    }
 
     public DocumentReference loadReceiverDocRef(String REmail, Context context)
     {
