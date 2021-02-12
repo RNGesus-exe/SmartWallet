@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,7 +53,8 @@ public class Mycart extends AppCompatActivity {
         if (ShopActivity.whislist_dataArray == null) {
 
             Toast.makeText(this, "Your Cart Is Empty", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else {
             txt = findViewById(R.id.txt7);
             // This value store total price
             int val = getTotalprice();
@@ -73,6 +75,7 @@ public class Mycart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 if (loadUserBalance() >= getTotalprice()) {
 
                      {
@@ -85,10 +88,14 @@ public class Mycart extends AppCompatActivity {
                          String time = allParts[3];
                          DataManager dataManager = new DataManager();
                          dataManager.addOutcomeReceipt("Shop", date, time, firebaseAuth.getCurrentUser().getUid(),"Checkout ",getTotalprice()+"",view,false);
-
+                         Intent intent = new Intent(Mycart.this,NavigationActivity.class);
+                         startActivity(intent);
 
 
                     }
+                }
+                else {
+                    Toast.makeText(Mycart.this, "Try again", Toast.LENGTH_SHORT).show();
                 }
 
             }
