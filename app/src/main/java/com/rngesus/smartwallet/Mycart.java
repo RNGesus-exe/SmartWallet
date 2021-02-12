@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -87,6 +88,9 @@ public class Mycart extends AppCompatActivity {
                          dataManager.addOutcomeReceipt("Shop", date, time,
                                  firebaseAuth.getCurrentUser().getUid(), " You bought stuff from shop ",
                                  String.valueOf(getTotalprice()), v, false);
+                         Intent intent =new Intent(Mycart.this,NavigationActivity.class);
+                         startActivity(intent);
+
 
 
                      }
