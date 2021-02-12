@@ -19,11 +19,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class RechargeAccount extends AppCompatActivity {
+public class RechargeActivity extends AppCompatActivity {
 
     private EditText et_recharge;
     private FirebaseFirestore db;
-    ArrayList<Cards> pin_list = new ArrayList<>();
+    private ArrayList<Cards> pin_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class RechargeAccount extends AppCompatActivity {
         init();
     }
 
-    public interface MyCallback {
-        void onCallback(ArrayList<Cards> pin_list);
+    public interface RechargeCallBack{
+        void on_load_callback(ArrayList<Cards> pin_list);
     }
 
     private void init() {
@@ -64,7 +64,7 @@ public class RechargeAccount extends AppCompatActivity {
                             "QR Transfer",String.valueOf(get_amount(pin)), view, false);
                 }
                 else{
-                    Toast.makeText(RechargeAccount.this, "The entered pin was incorrect!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RechargeActivity.this, "The entered pin was incorrect!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -88,9 +88,9 @@ public class RechargeAccount extends AppCompatActivity {
             transaction.update(user_ref, "Amount", updated_user_amount);
             return null;
         })
-                .addOnCompleteListener(task -> Toast.makeText(RechargeAccount.this,
+                .addOnCompleteListener(task -> Toast.makeText(RechargeActivity.this,
                         "Recharge Complete",Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(RechargeAccount.this,
+                .addOnFailureListener(e -> Toast.makeText(RechargeActivity.this,
                         "Failed Transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
     }
 
@@ -103,7 +103,7 @@ public class RechargeAccount extends AppCompatActivity {
         return false;
     }
 
-    private void load_cards(MyCallback callback){
+    private void load_cards(RechargeCallBack rechargeCallBack){
         db.collection("Cards")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -112,7 +112,7 @@ public class RechargeAccount extends AppCompatActivity {
                             Cards card = new Cards(document.getId(),Integer.parseInt(document.get("recharge").toString()));
                             pin_list.add(card);
                         }
-                        callback.onCallback(pin_list);
+                        rechargeCallBack.on_load_callback(pin_list);
                     } else {
                         Toast.makeText(this, "An error occurred while Loading!!", Toast.LENGTH_SHORT).show();
                     }

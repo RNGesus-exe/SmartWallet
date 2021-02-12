@@ -1,6 +1,7 @@
 package com.rngesus.smartwallet;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Transaction;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -23,167 +25,132 @@ import java.util.StringTokenizer;
 
 public class TransferActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference ProfileRef = db.collection("USERS");
-    private DocumentReference userDocRef;
-    private DocumentReference receiverDocRef;
-    Firebase fb = new Firebase();
+    private EditText etEmail;
+    private EditText etAmount;
+    private EditText etConfirmAmount;
+    private Button btnTransfer;
+    private FirebaseFirestore db;
+    private boolean amount_flag = false;
+    private DocumentReference receiver_ref = null;
+    private DocumentReference user_ref = null;
 
-    String ReceiverEmail; // needs to be changed in init()
-    String email; // global var used in for each loop
-    int amount;
-    boolean EmailFlag = true;
-    boolean AmountFlag = false;
 
-    EditText etEmail;
-    EditText etAmount;
-    EditText etConfirmAmount;
-    Button btnTransfer;
+    public interface TransferCallBack {
+        void amount_get_callback(boolean amount_and_receiver_flag,DocumentReference receiver_ref,
+                                 DocumentReference current_ref);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer);
-        firebaseAuth.getCurrentUser().getUid();
+
+        init();
+
+        btnTransfer.setOnClickListener(v -> {
+            if(etEmail.getText().toString().trim().isEmpty()){
+                Toast.makeText(TransferActivity.this, "Enter the email of the receiver", Toast.LENGTH_LONG).show();
+            }
+            else if(etAmount.getText().toString().trim().isEmpty()){
+                Toast.makeText(TransferActivity.this, "Enter the Amount to send", Toast.LENGTH_LONG).show();
+            }
+            else if (etConfirmAmount.getText().toString().trim().isEmpty()){
+                Toast.makeText(TransferActivity.this, "Enter the Amount again in confirm amount text field", Toast.LENGTH_LONG).show();
+            }
+            else if(!etAmount.getText().toString().trim().equals(etConfirmAmount.getText().toString().trim())){
+                Toast.makeText(TransferActivity.this, "Amount and Confirm Amount do not match!!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                checkReceiverAndAmount(Integer.parseInt(etAmount.getText().toString()),
+                        etEmail.getText().toString(), (amount_flag, receiver_ref,user_ref) -> {
+                            if(!amount_flag){
+                                Toast.makeText(TransferActivity.this, "You don't have enough balance!!", Toast.LENGTH_SHORT).show();
+                            }
+                            else if(receiver_ref == null) {
+                                Toast.makeText(TransferActivity.this, "The receiver does not exist!!", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                db.runTransaction((Transaction.Function<Integer>) transaction -> {
+                                    DocumentSnapshot senderSnapshot = transaction.get(user_ref);
+                                    Long newUserAmount = senderSnapshot.getLong("Amount") - (Integer.parseInt(etAmount.getText().toString()));
+                                    DocumentSnapshot RSnapshot = transaction.get(receiver_ref);
+                                    Long newRAmount = RSnapshot.getLong("Amount") + (Integer.parseInt(etAmount.getText().toString()));
+                                    transaction.update(user_ref, "Amount",newUserAmount);
+                                    transaction.update(receiver_ref, "Amount", newRAmount);
+
+                                    Date currentTime = Calendar.getInstance().getTime();
+                                    String Str = currentTime.toString();
+                                    String[] allParts = Str.split("\\s+");
+                                    String date = allParts[0] + ", " + allParts[1] + ", " + allParts[2];
+                                    String time = allParts[3];
+                                    StringTokenizer tokens = new StringTokenizer(etEmail.getText().toString().trim(), "@");
+                                    String receiver = tokens.nextToken();
+
+                                    DataManager dataManager = new DataManager();
+                                    dataManager.addOutcomeReceipt(receiver, date, time,
+                                            FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                            " Transfer Cash ", etAmount.getText().toString(), v, false);
+                                    dataManager = new DataManager();
+
+                                    tokens = new StringTokenizer(FirebaseAuth.getInstance().getCurrentUser().getEmail(), "@");
+                                    String sender = tokens.nextToken();
+
+                                    dataManager.addIncomeReceipt(receiver_ref.getId(),
+                                            date, time, sender,
+                                            "Transfer Cash", etAmount.getText().toString(), v, false);
+
+                                    etAmount.setText("");
+                                    etConfirmAmount.setText("");
+                                    etEmail.setText("");
+
+                                    return null;
+                                })
+                                        .addOnCompleteListener(task -> Toast.makeText(TransferActivity.this,"Transaction Complete",Toast.LENGTH_SHORT).show())
+                                        .addOnFailureListener(e -> Toast.makeText(TransferActivity.this,"Failed Transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
+                            }
+                        });
+            }
+        });
+
+
+    }
+
+    private void checkReceiverAndAmount(int amount, String receiver,TransferCallBack transferCallBack) {
+        db.collection("USERS")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            System.out.println(document);
+                            if(document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    && document.getLong("Amount")>=amount){
+                                amount_flag = true;
+                                user_ref = document.getReference();
+                            }
+                            if(document.getString("email").equals(receiver)){
+                                receiver_ref = document.getReference();
+                            }
+                        }
+                        transferCallBack.amount_get_callback(amount_flag, receiver_ref,user_ref);
+                    } else {
+                        Toast.makeText(this, "An error occurred while Loading!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void init() {
         etEmail = findViewById(R.id.etEmail);
         etAmount = findViewById(R.id.etAmount);
         etConfirmAmount = findViewById(R.id.etConfirmAmount);
         btnTransfer = findViewById(R.id.btnTransfer);
-        fb = new Firebase();
+        db = FirebaseFirestore.getInstance();
 
         getSupportActionBar().setTitle("Transfer Cash");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        btnTransfer.setOnClickListener(v -> {
-            if(etAmount.getText().toString().isEmpty()){
-
-                Toast.makeText(TransferActivity.this, " Amount is Empty ", Toast.LENGTH_LONG).show();
-            }
-            else if(etConfirmAmount.getText().toString().isEmpty()){
-
-                Toast.makeText(TransferActivity.this, " Confirm Amount is Empty ", Toast.LENGTH_LONG).show();
-            }else if(etEmail.getText().toString().trim().isEmpty()){
-
-                Toast.makeText(TransferActivity.this, " Email is Empty ", Toast.LENGTH_LONG).show();
-            }
-          else if(etAmount.getText().toString().trim().equals(etConfirmAmount.getText().toString().trim()) ) {
-
-            ReceiverEmail = etEmail.getText().toString();
-            if (checkEmail(ReceiverEmail)) {
-                DocumentReference dr = fb.loadReceiverDocRef(ReceiverEmail, v.getContext());
-                loadProfile();
-                if (AmountFlag && dr != null) {
-                    if (amount >= Integer.parseInt(etAmount.getText().toString())) {
-                        executeTransaction();
-                        //--------ADD RECEIPT FUNCTIONS HERE
-                        Date currentTime = Calendar.getInstance().getTime();
-                        String Str = currentTime.toString();
-                        String[] allParts = Str.split("\\s+");
-                        String date = allParts[0] + ", " + allParts[1] + ", " + allParts[2];
-                        String time = allParts[3];
-                        StringTokenizer tokens = new StringTokenizer(ReceiverEmail, "@");
-                        String receiver = tokens.nextToken();
-                        DataManager dataManager = new DataManager();
-                        dataManager.addOutcomeReceipt(receiver, date, time,
-                                firebaseAuth.getCurrentUser().getUid(), " QR transfer ", etAmount.getText().toString(), v, false);
-                        dataManager = new DataManager();
-                        tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(), "@");
-                        String sender = tokens.nextToken();
-                        dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, v.getContext()).getId(),
-                                date, time, sender,
-                                "QR Transfer", etAmount.getText().toString(), v, false);
-                        etAmount.setText("");
-                        etConfirmAmount.setText("");
-                        etEmail.setText("");
-                    } else {
-                        Toast.makeText(this, "Insufficient Balance!!", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(TransferActivity.this, " Unable to load data, Try Again.", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                Toast.makeText(TransferActivity.this, "Incorrect Receiver Email", Toast.LENGTH_LONG).show();
-            }
-
-        }else{
-                Toast.makeText(TransferActivity.this, "Amounts does not match! ", Toast.LENGTH_LONG).show();
-            }
-
-
-
-
-
-
-        });
-
-
-
     }
 
     @Override
     public void onBackPressed(){
         return;
-    }
-    public boolean checkEmail(String email)
-    {
-
-        firebaseAuth.fetchSignInMethodsForEmail(email)
-                .addOnCompleteListener(task -> {
-                    boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
-                    if(isNewUser) {
-                        EmailFlag = false;
-
-                    } else {
-                        EmailFlag = true;
-                    }
-                });
-        return EmailFlag;
-    }
-
-
-    public void loadProfile()
-    {
-        Query query;
-        query = ProfileRef.orderBy("email");
-        query.get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ReceiverEmail = etEmail.getText().toString();
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Profile profile = documentSnapshot.toObject(Profile.class);
-
-                        email = profile.getEmail();
-
-                        amount = profile.getAmount();
-
-                        if (userEmail.equalsIgnoreCase(email)) {
-                            userDocRef = documentSnapshot.getReference();
-
-                            AmountFlag = amount >= Integer.parseInt(etAmount.getText().toString());
-
-                        }
-                        if (ReceiverEmail.equalsIgnoreCase(email))
-                        {
-                            receiverDocRef = documentSnapshot.getReference();
-                        }
-                        //check  comma separated value from qr scan
-                    }
-
-                }).addOnFailureListener(e -> Toast.makeText(TransferActivity.this,"failed to get query results",Toast.LENGTH_SHORT).show());
-    }
-
-
-    private void executeTransaction() {
-        db.runTransaction((Transaction.Function<Integer>) transaction -> {
-            DocumentSnapshot senderSnapshot = transaction.get(userDocRef);
-            Long newUserAmount = senderSnapshot.getLong("Amount") - (Integer.parseInt(etAmount.getText().toString()));
-            DocumentSnapshot RSnapshot = transaction.get(receiverDocRef);
-            Long newRAmount = RSnapshot.getLong("Amount") + (Integer.parseInt(etAmount.getText().toString()));
-            transaction.update(userDocRef, "Amount",newUserAmount);
-            transaction.update(receiverDocRef, "Amount", newRAmount);
-            return null;
-        }).addOnCompleteListener(task -> Toast.makeText(TransferActivity.this,"Complete",Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(TransferActivity.this,"failed transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
-
     }
 }

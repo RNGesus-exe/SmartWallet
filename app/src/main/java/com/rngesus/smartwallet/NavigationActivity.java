@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,11 +15,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,14 +37,8 @@ public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     public CircleImageView profileimg;
-    private TextView pname,pemail,etBalance;
+    private TextView pname,pemail;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference ProfileRef = db.collection("USERS");
-    String email;
-    int amount;
-    int UserAmount = 0;
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
     String user;
@@ -61,6 +51,7 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -121,7 +112,7 @@ public class NavigationActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.Recharge:
-                        intent = new Intent(NavigationActivity.this, RechargeAccount.class);
+                        intent = new Intent(NavigationActivity.this, RechargeActivity.class);
                         startActivity(intent);
                         Toast.makeText(NavigationActivity.this, "Recharge Acc", Toast.LENGTH_SHORT).show();
                         break;
@@ -147,19 +138,11 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         });
-        photos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,key);
-
-            }
+        photos.setOnClickListener(v -> {
+            Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent,key);
         });
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
