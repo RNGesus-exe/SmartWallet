@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +30,8 @@ import com.google.firebase.firestore.Transaction;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Mycart extends AppCompatActivity {
@@ -42,7 +46,9 @@ public class Mycart extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
+    FirebaseFirestore firebaseFirestore;
     TextView txt;
+    int Amountofuser;
     Button btn;
 
     @Override
@@ -54,6 +60,7 @@ public class Mycart extends AppCompatActivity {
 
             Toast.makeText(this, "Your Cart Is Empty", Toast.LENGTH_SHORT).show();
         } else {
+
             txt = findViewById(R.id.txt7);
             // This value store total price
             int val = getTotalprice();
@@ -70,37 +77,41 @@ public class Mycart extends AppCompatActivity {
 
 
         // Button to confirm Purchase
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+       btn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               loadUserBalance(new MyCallback() {
+                   @Override
+                   public void onCallback(int pin_list) {
+                       if(pin_list>getTotalprice())
+                       {
+                           executeTransaction(pin_list);
+                           Date currentTime = Calendar.getInstance().getTime();
+                           String Str = currentTime.toString();
+                           String[] allParts = Str.split("\\s+");
+                           String date = allParts[0] + ", " + allParts[1] + ", " + allParts[2];
+                           String time = allParts[3];
+                           DataManager dataManager = new DataManager();
+                           dataManager.addOutcomeReceipt("Shop", date, time,
+                                   firebaseAuth.getCurrentUser().getUid(), " You bought stuff from shop ",
+                                   String.valueOf(getTotalprice()), v, false);
+                           Intent intent = new Intent(Mycart.this, NavigationActivity.class);
+                           startActivity(intent);
 
-                if (loadUserBalance() >= getTotalprice()) {
-
-                     {
-                         View view = null;
-                         executeTransaction();
-                         Date currentTime = Calendar.getInstance().getTime();
-                         String Str = currentTime.toString();
-                         String []allParts = Str.split("\\s+");
-                         String date = allParts[0]+", "+ allParts[1]+", "+ allParts[2];
-                         String time = allParts[3];
-                         DataManager dataManager = new DataManager();
-                         dataManager.addOutcomeReceipt("Shop", date, time,
-                                 firebaseAuth.getCurrentUser().getUid(), " You bought stuff from shop ",
-                                 String.valueOf(getTotalprice()), v, false);
-                         Intent intent =new Intent(Mycart.this,NavigationActivity.class);
-                         startActivity(intent);
+                       }
+                       else
+                       {
+                           Toast.makeText(Mycart.this, "You don't have enough balance", Toast.LENGTH_SHORT).show();
+                       }
+                   }
+               });
+           }
+       });
 
 
-
-                     }
-                }
-                else {
-                    Toast.makeText(Mycart.this, "Try again", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+    }
+    public interface MyCallback {
+        void onCallback(int pin_list);
     }
 
     private int getTotalprice() {
@@ -112,40 +123,46 @@ public class Mycart extends AppCompatActivity {
         return addprice;
     }
 
-    private int loadUserBalance() {
+    private void  loadUserBalance( MyCallback callback)
+    {
 
-        Query query;
-        query = ProfileRef.orderBy("email");
-        query.get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+        String user = firebaseAuth.getCurrentUser().getUid();
 
-
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Profile profile = documentSnapshot.toObject(Profile.class);
-                        email = profile.getEmail();
-                        amount = profile.getAmount();
-                        if (userEmail.equalsIgnoreCase(email)) {
-                            UserAmount = amount;
-                            userDocRef = documentSnapshot.getReference();
-                        }
-                    }
-                }).addOnFailureListener(e -> Toast.makeText(this, "failed to get query results", Toast.LENGTH_SHORT).show());
-        return UserAmount;
-    }
-
-    private void executeTransaction() {
-        db.runTransaction((Transaction.Function<Integer>) transaction -> {
-            DocumentSnapshot senderSnapshot = transaction.get(userDocRef);
-            Long newUserAmount = senderSnapshot.getLong("Amount") - (getTotalprice());
-            transaction.update(userDocRef, "Amount", newUserAmount);
-            return null;
-        }).addOnCompleteListener(new OnCompleteListener<Integer>() {
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("USERS").document(user).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
             @Override
-            public void onComplete(@NonNull Task<Integer> task) {
-                Toast.makeText(Mycart.this, "Complete", Toast.LENGTH_SHORT).show();
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                Amountofuser=documentSnapshot.getLong("Amount").intValue();
+                callback.onCallback(Amountofuser);
 
             }
-        }).addOnFailureListener(e -> Toast.makeText(this, "failed transfer" + e.getMessage(), Toast.LENGTH_SHORT).show());
 
+
+        });
+    }
+
+    private void executeTransaction(int value) {
+
+        int val = value - getTotalprice();
+        Toast.makeText(this, "Total value is"+val, Toast.LENGTH_SHORT).show();
+        String user = firebaseAuth.getCurrentUser().getUid();
+
+       final DocumentReference documentReference=FirebaseFirestore.getInstance().collection("USERS").document(user);
+        Map<String,Object>map=new HashMap<>();
+        map.put("Amount",val);
+        documentReference.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(Mycart.this, "FINALLY ADDED", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Mycart.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 }
