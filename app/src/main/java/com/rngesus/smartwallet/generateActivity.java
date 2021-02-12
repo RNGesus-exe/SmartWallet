@@ -26,7 +26,7 @@ public class generateActivity extends AppCompatActivity {
     EditText etValue;
     Button btnGetCode;
    private String FullName;
-   private String RFullName=" n  ";
+   private String RFullName=" no name  ";
     String REmail;
     String userEmail = firebaseAuth.getCurrentUser().getEmail();
 
@@ -52,7 +52,7 @@ public class generateActivity extends AppCompatActivity {
                 Toast.makeText(generateActivity.this, "name  found"+RFullName, Toast.LENGTH_SHORT).show();
 
                 String qrAmount = etValue.getText().toString().trim();
-                encodedString = (userEmail+","+RFullName+","+qrAmount);
+                encodedString = (userEmail+","+RFullName+","+qrAmount+","+firebaseAuth.getCurrentUser().getUid());
 
                 QRGEncoder qrgEncoder = new QRGEncoder(encodedString,null, QRGContents.Type.TEXT,1000);
 

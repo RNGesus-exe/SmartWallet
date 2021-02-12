@@ -51,10 +51,11 @@ public class scanActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     Dialog dialog;
     ImageButton BtnCancel;
-    ImageButton btnConfirm;
+//    ImageButton btnConfirm;
     EditText etTransferAmount;
     String TransferAmount;
     String REmail;
+    String RUid;
     String RName;
     Firebase fb=new Firebase();
     @Override
@@ -77,6 +78,7 @@ public class scanActivity extends AppCompatActivity {
                         REmail = tokens.nextToken();
                         RName = tokens.nextToken();
                         TransferAmount = tokens.nextToken();
+                        RUid = tokens.nextToken();
                      //   Toast.makeText(scanActivity.this, "Name"+RName, Toast.LENGTH_SHORT).show();
                         confirmation();
 
@@ -184,12 +186,12 @@ public class scanActivity extends AppCompatActivity {
             dataManager = new DataManager();
             tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(), "@");
             String sender = tokens.nextToken();
-            dataManager.addIncomeReceipt(fb.loadReceiverDocRef(ReceiverEmail, view.getContext()).getId(),
+            dataManager.addIncomeReceipt(RUid,
                     date, time, sender,
                     "QR Transfer", TransferAmount, view, false);
         }
         else{
-            Toast.makeText(this, "An error occured please try again!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "An error occurred please try again!!", Toast.LENGTH_SHORT).show();
         }
 
     }
