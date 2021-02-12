@@ -240,6 +240,7 @@ public class SignUp extends Fragment {
                                     HashMap<String,Object> userdata=new HashMap<>();
                                     userdata.put("fullname", fullname.getText().toString());
                                     userdata.put("email",iD.getText().toString());
+                                    userdata.put("Amount",0);
                                     firebaseFirestore.collection("USERS").document(mAuth.getUid()).set(userdata ).addOnSuccessListener(new OnSuccessListener<Void>()
 
 

@@ -119,7 +119,7 @@ public class Firebase {
                             amount = profile.getAmount();
 
                             if (userEmail.equalsIgnoreCase(email)) {
-                                balance.setText("RS"+amount);
+                                balance.setText("Rs. "+amount);
                             }
 
 
