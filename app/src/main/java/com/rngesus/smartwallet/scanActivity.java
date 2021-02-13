@@ -42,7 +42,6 @@ public class scanActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String ReceiverEmail;
     private CodeScanner mCodeScanner;
     Dialog dialog;
     ImageButton BtnCancel;
@@ -50,7 +49,6 @@ public class scanActivity extends AppCompatActivity {
     String TransferAmount;
     String REmail;
     String RUid;
-    String RName;
 
     ArrayList<Profile> profile_list = new ArrayList<>();
 
@@ -101,7 +99,6 @@ public class scanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         dialog = new Dialog(this);
-
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
@@ -111,7 +108,6 @@ public class scanActivity extends AppCompatActivity {
                     String scannerOutput = result.getText();
                     StringTokenizer tokens = new StringTokenizer(scannerOutput, ",");
                     REmail = tokens.nextToken();
-                    RName = tokens.nextToken();
                     TransferAmount = tokens.nextToken();
                     RUid = tokens.nextToken();
                     scanActivity.this.confirmation();
@@ -135,7 +131,7 @@ public class scanActivity extends AppCompatActivity {
         load_Profiles(profile_list -> {
             if(check_amount(firebaseAuth.getCurrentUser().getUid(),Integer.parseInt(TransferAmount))){
                 DocumentReference RDocRef = db.collection("USERS").document(RUid);
-                 DocumentReference SDocRef =   db.collection("USERS").document(firebaseAuth.getCurrentUser().getUid());
+                DocumentReference SDocRef =   db.collection("USERS").document(firebaseAuth.getCurrentUser().getUid());
                 executeTransaction(SDocRef,RDocRef, Integer.parseInt(TransferAmount));
                 //--------ADD RECEIPT FUNCTIONS HERE
                 Date currentTime = Calendar.getInstance().getTime();
@@ -151,9 +147,11 @@ public class scanActivity extends AppCompatActivity {
                 tokens = new StringTokenizer(firebaseAuth.getCurrentUser().getEmail(), "@");
                 String sender = tokens.nextToken();
                 dataManager.addIncomeReceipt(RUid, date, time, sender, "QR Transfer", TransferAmount, view, false);
+                finish();
             }else
             {
                 Toast.makeText(scanActivity.this," Insufficient Amount",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

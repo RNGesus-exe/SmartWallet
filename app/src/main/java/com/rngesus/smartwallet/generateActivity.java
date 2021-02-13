@@ -1,6 +1,7 @@
 package com.rngesus.smartwallet;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +26,6 @@ public class generateActivity extends AppCompatActivity {
     ImageView qrcode;
     EditText etValue;
     Button btnGetCode;
-   private String FullName;
-   private String RFullName=" no name  ";
-    String REmail;
     String userEmail = firebaseAuth.getCurrentUser().getEmail();
 
 
@@ -35,32 +33,15 @@ public class generateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate);
-
-        etValue = findViewById(R.id.etValue);
-        btnGetCode = findViewById(R.id.btnGetCode);
-        qrcode = findViewById(R.id.qrcode);
-
+        init();
        btnGetCode.setOnClickListener(v -> {
             if( !etValue.getText().toString().isEmpty())
             {   String encodedString;
-                //String REmail = firebaseAuth.getCurrentUser().getEmail();
-                //String RName = firebaseAuth.getCurrentUser().getDisplayName();
-
-                loadProfile();
-                Toast.makeText(generateActivity.this, "name  found"+RFullName, Toast.LENGTH_SHORT).show();
-                loadProfile();
-                Toast.makeText(generateActivity.this, "name  found"+RFullName, Toast.LENGTH_SHORT).show();
-
                 String qrAmount = etValue.getText().toString().trim();
-                encodedString = (userEmail+","+RFullName+","+qrAmount+","+firebaseAuth.getCurrentUser().getUid());
-
+                encodedString = (userEmail+","+qrAmount+","+firebaseAuth.getCurrentUser().getUid());
                 QRGEncoder qrgEncoder = new QRGEncoder(encodedString,null, QRGContents.Type.TEXT,1000);
-
-
                 Bitmap bitmap = qrgEncoder.getBitmap();
-
                 qrcode.setImageBitmap(bitmap);
-               // qrcode.setBackgroundColor(Color.BLUE);
             }
             else
             {
@@ -68,33 +49,14 @@ public class generateActivity extends AppCompatActivity {
             }
        });
     }
-    public void removeBackground( Bitmap bmp)
+
+    public void init()
     {
 
+        etValue = findViewById(R.id.etValue);
+        btnGetCode = findViewById(R.id.btnGetCode);
+        qrcode = findViewById(R.id.qrcode);
+
     }
-
-    public void loadProfile()
-    {
-
-        Query query;
-        query = ProfileRef.orderBy("email");
-        query.get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Profile profile = documentSnapshot.toObject(Profile.class);
-                        REmail = profile.getEmail();
-                        FullName = profile.getFullname();
-
-                        if (REmail.equalsIgnoreCase(userEmail)) {
-                            RFullName = FullName;
-                            Toast.makeText(generateActivity.this, "name  found"+RFullName, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                }).addOnFailureListener(e -> Toast.makeText(generateActivity.this,"failed to get query results",Toast.LENGTH_SHORT).show());
-    }
-
 
 }
