@@ -7,34 +7,27 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.rngesus.smartwallet.Firebase;
-import com.rngesus.smartwallet.Profile;
 import com.rngesus.smartwallet.R;
-import com.rngesus.smartwallet.Slider_Adapter;
-import com.rngesus.smartwallet.slider_class;
+import com.rngesus.smartwallet.SliderAdapter;
+import com.rngesus.smartwallet.Slider;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HomeFragment extends Fragment {
     private ViewPager bannersliderviewpager;
-    private ArrayList<slider_class>slider_classes;
+    private ArrayList<Slider> Sliders;
     private int currentpage=2;
     private Timer timer;
     final private long DELAYTIME = 3000;
@@ -61,24 +54,24 @@ public class HomeFragment extends Fragment {
 
 
 
-        slider_classes=new ArrayList<slider_class>();
+        Sliders =new ArrayList<Slider>();
 
-        slider_classes.add(new slider_class(R.drawable.macmobile));
-        slider_classes.add(new slider_class(R.drawable.dunkin));
+        Sliders.add(new Slider(R.drawable.macmobile));
+        Sliders.add(new Slider(R.drawable.dunkin));
 
-        slider_classes.add(new slider_class(R.drawable.mac));
-        slider_classes.add(new slider_class(R.drawable.macmobile));
-        slider_classes.add(new slider_class(R.drawable.startbucks));
-        slider_classes.add(new slider_class(R.drawable.laptop));
-        slider_classes.add(new slider_class(R.drawable.macmobile));
-        slider_classes.add(new slider_class(R.drawable.dunkin));
+        Sliders.add(new Slider(R.drawable.mac));
+        Sliders.add(new Slider(R.drawable.macmobile));
+        Sliders.add(new Slider(R.drawable.startbucks));
+        Sliders.add(new Slider(R.drawable.laptop));
+        Sliders.add(new Slider(R.drawable.macmobile));
+        Sliders.add(new Slider(R.drawable.dunkin));
 
-        slider_classes.add(new slider_class(R.drawable.mac));
-        slider_classes.add(new slider_class(R.drawable.macmobile));
+        Sliders.add(new Slider(R.drawable.mac));
+        Sliders.add(new Slider(R.drawable.macmobile));
 
 
 
-        Slider_Adapter sliderAdapter = new Slider_Adapter(slider_classes);
+        SliderAdapter sliderAdapter = new SliderAdapter(Sliders);
         bannersliderviewpager.setAdapter(sliderAdapter);
         bannersliderviewpager.setClipToPadding(false);
         bannersliderviewpager.setPageMargin(20);
@@ -105,16 +98,13 @@ public class HomeFragment extends Fragment {
         };
         bannersliderviewpager.addOnPageChangeListener(onPageChangeListener);
         startbannerslideshow();
-        bannersliderviewpager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                pagelooper();
-                stopbanner();
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    startbannerslideshow();
-                }
-                return false;
+        bannersliderviewpager.setOnTouchListener((v, event) -> {
+            pagelooper();
+            stopbanner();
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                startbannerslideshow();
             }
+            return false;
         });
 
         return view;
@@ -132,7 +122,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void run()
             {
-                if(currentpage>=slider_classes.size())
+                if(currentpage>= Sliders.size())
                 {
                     currentpage=1;
                 }
@@ -156,7 +146,7 @@ public class HomeFragment extends Fragment {
 
     private  void pagelooper()
     {
-        if(currentpage==slider_classes.size()-2)
+        if(currentpage== Sliders.size()-2)
         {
             currentpage=2;
             bannersliderviewpager.setCurrentItem(currentpage,false);
@@ -164,7 +154,7 @@ public class HomeFragment extends Fragment {
         }
         if(currentpage==1)
         {
-            currentpage=slider_classes.size()-3;
+            currentpage= Sliders.size()-3;
             bannersliderviewpager.setCurrentItem(currentpage,false);
         }
     }

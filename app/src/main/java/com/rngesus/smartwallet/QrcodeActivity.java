@@ -44,7 +44,7 @@ public class QrcodeActivity extends AppCompatActivity {
         });
 
         btnScan.setOnClickListener(v -> {
-            Intent intent = new Intent(QrcodeActivity.this, scanActivity.class);
+            Intent intent = new Intent(QrcodeActivity.this, ScanActivity.class);
             startActivityForResult(intent,scan);
 
 

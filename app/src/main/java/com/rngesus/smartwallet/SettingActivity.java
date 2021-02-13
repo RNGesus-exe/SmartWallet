@@ -7,12 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +25,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -70,7 +66,7 @@ public class SettingActivity extends AppCompatActivity {
         name=findViewById(R.id.NameS);
         changenpass=findViewById(R.id.chagnepass);
         dialog=new Dialog(SettingActivity.this);
-        dialog.setContentView(R.layout.passswordconfirmdialogue);
+        dialog.setContentView(R.layout.password_confirm_dialogue);
         dialogebutton=dialog.findViewById(R.id.dialogebtn);
         passkey=dialog.findViewById(R.id.passkey);
 

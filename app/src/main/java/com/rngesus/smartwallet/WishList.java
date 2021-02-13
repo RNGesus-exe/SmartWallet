@@ -2,14 +2,14 @@ package com.rngesus.smartwallet;
 
 import android.widget.ImageView;
 
-public class Whislist_data {
+public class WishList {
     int img;
     String title;
     String Avalable;
     String price;
     String totalproduct;
 
-    public Whislist_data(int img, String title, String avalable, String price, String totalproduct) {
+    public WishList(int img, String title, String avalable, String price, String totalproduct) {
         this.img = img;
         this.title = title;
         Avalable = avalable;

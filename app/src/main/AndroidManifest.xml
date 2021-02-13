@@ -41,7 +41,7 @@
             android:name=".TransferActivity"
             android:parentActivityName=".NavigationActivity" />
         <activity android:name=".generateActivity" />
-        <activity android:name=".scanActivity" />
+        <activity android:name=".ScanActivity" />
         <activity
             android:name=".QrcodeActivity"
             android:parentActivityName=".NavigationActivity" />

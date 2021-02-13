@@ -2,25 +2,18 @@ package com.rngesus.smartwallet;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.strictmode.IntentReceiverLeakedViolation;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ShopActivity extends AppCompatActivity implements ItemAdapter.ItemSelected {
@@ -30,7 +23,7 @@ public class ShopActivity extends AppCompatActivity implements ItemAdapter.ItemS
     Dialog dialog;
     ArrayList<Item> ItemList;
     Button btn;
-   public static ArrayList<Whislist_data>whislist_dataArray;
+   public static ArrayList<WishList> wishListArray;
     static int i=0;
 
 
@@ -64,7 +57,7 @@ public class ShopActivity extends AppCompatActivity implements ItemAdapter.ItemS
         ItemList.add(new Item("Phone A","Available","50000","40000"));
         ItemList.add(new Item("TouchPad A","Sold out","700","650"));
         ItemList.add(new Item("DVD Player A","Sold out","5000","4500"));
-        whislist_dataArray=new ArrayList<Whislist_data>();
+        wishListArray =new ArrayList<WishList>();
 
         recyclerView = findViewById(R.id.ShopRecyclerView);
         layoutManager = new GridLayoutManager(ShopActivity.this,2);
@@ -149,7 +142,7 @@ btn.setOnClickListener(new View.OnClickListener() {
 
                     Toast.makeText(ShopActivity.this, "Happy shopping", Toast.LENGTH_SHORT).show();
                     int img = images[index];
-                    whislist_dataArray.add(new Whislist_data(img, ItemList.get(index).getItemName(), ItemList.get(index).getItemStatus(), (String) DPrice.getText(), (String) total.getText()));
+                    wishListArray.add(new WishList(img, ItemList.get(index).getItemName(), ItemList.get(index).getItemStatus(), (String) DPrice.getText(), (String) total.getText()));
                     dialog.dismiss();
                 }
             }

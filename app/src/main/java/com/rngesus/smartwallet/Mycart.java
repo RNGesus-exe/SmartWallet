@@ -2,7 +2,6 @@ package com.rngesus.smartwallet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,26 +12,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.Transaction;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class Mycart extends AppCompatActivity {
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -56,7 +47,7 @@ public class Mycart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mycart);
         btn = findViewById(R.id.purchase);
-        if (ShopActivity.whislist_dataArray == null) {
+        if (ShopActivity.wishListArray == null) {
 
             Toast.makeText(this, "Your Cart Is Empty", Toast.LENGTH_SHORT).show();
         } else {
@@ -71,7 +62,7 @@ public class Mycart extends AppCompatActivity {
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
-            myAdapter = new WhislistAdapter(ShopActivity.whislist_dataArray);
+            myAdapter = new WishListAdapter(ShopActivity.wishListArray);
             recyclerView.setAdapter(myAdapter);
         }
 
@@ -116,8 +107,8 @@ public class Mycart extends AppCompatActivity {
 
     private int getTotalprice() {
         int addprice = 0;
-        for (int i = 0; i < ShopActivity.whislist_dataArray.size(); i++) {
-            String price = ShopActivity.whislist_dataArray.get(i).getPrice();
+        for (int i = 0; i < ShopActivity.wishListArray.size(); i++) {
+            String price = ShopActivity.wishListArray.get(i).getPrice();
             addprice += Integer.parseInt(price);
         }
         return addprice;

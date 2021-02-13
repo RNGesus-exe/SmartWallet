@@ -1,9 +1,9 @@
 package com.rngesus.smartwallet;
 
-public class slider_class {
+public class Slider {
     private int banner;
 
-    public slider_class(int banner) {
+    public Slider(int banner) {
         this.banner = banner;
     }
 

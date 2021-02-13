@@ -3,7 +3,6 @@ package com.rngesus.smartwallet;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -14,30 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
-import com.google.type.DateTime;
 import com.google.zxing.Result;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
-public class scanActivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
@@ -67,7 +57,7 @@ public class scanActivity extends AppCompatActivity {
                         }
                         callback.onCallback(profile_list);
                     } else {
-                        Toast.makeText(scanActivity.this, "An error occurred while Loading!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScanActivity.this, "An error occurred while Loading!!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -89,7 +79,7 @@ public class scanActivity extends AppCompatActivity {
             transaction.update(SDocRef, "Amount",newUserAmount);
             transaction.update(RDocRef, "Amount", newRAmount);
             return null;
-        }).addOnCompleteListener(task -> Toast.makeText(scanActivity.this,"QR Transfer Complete",Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(scanActivity.this,"failed transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
+        }).addOnCompleteListener(task -> Toast.makeText(ScanActivity.this,"QR Transfer Complete",Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(ScanActivity.this,"failed transfer"+ e.getMessage(),Toast.LENGTH_SHORT).show());
 
     }
 
@@ -104,13 +94,13 @@ public class scanActivity extends AppCompatActivity {
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
-                scanActivity.this.runOnUiThread(() -> {
+                ScanActivity.this.runOnUiThread(() -> {
                     String scannerOutput = result.getText();
                     StringTokenizer tokens = new StringTokenizer(scannerOutput, ",");
                     REmail = tokens.nextToken();
                     TransferAmount = tokens.nextToken();
                     RUid = tokens.nextToken();
-                    scanActivity.this.confirmation();
+                    ScanActivity.this.confirmation();
                 });
             }
         });
@@ -150,7 +140,7 @@ public class scanActivity extends AppCompatActivity {
                 finish();
             }else
             {
-                Toast.makeText(scanActivity.this," Insufficient Amount",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScanActivity.this," Insufficient Amount",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

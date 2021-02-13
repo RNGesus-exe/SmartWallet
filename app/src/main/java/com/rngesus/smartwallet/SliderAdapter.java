@@ -10,11 +10,11 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.ArrayList;
 
-public class Slider_Adapter extends PagerAdapter {
+public class SliderAdapter extends PagerAdapter {
 
-    private ArrayList<slider_class>sliderModellist;
+    private ArrayList<Slider>sliderModellist;
 
-    public Slider_Adapter(ArrayList<slider_class> sliderModellist) {
+    public SliderAdapter(ArrayList<Slider> sliderModellist) {
         this.sliderModellist = sliderModellist;
     }
 

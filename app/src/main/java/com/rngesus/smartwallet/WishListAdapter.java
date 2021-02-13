@@ -1,32 +1,29 @@
 package com.rngesus.smartwallet;
 
-import android.content.Context;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class WhislistAdapter extends RecyclerView.Adapter< WhislistAdapter.MAdapter> {
-    ArrayList<Whislist_data> items;
+public class WishListAdapter extends RecyclerView.Adapter< WishListAdapter.MAdapter> {
+    ArrayList<WishList> items;
 
-    public WhislistAdapter(ArrayList<Whislist_data> items) {
+    public WishListAdapter(ArrayList<WishList> items) {
         this.items = items;
     }
 
     @NonNull
     @Override
-    public  WhislistAdapter.MAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cartlist,parent,false);
-        return new  WhislistAdapter.MAdapter(v);
+    public  WishListAdapter.MAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_list,parent,false);
+        return new  WishListAdapter.MAdapter(v);
     }
 
     @Override
