@@ -95,37 +95,30 @@ public class NavigationActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
                 switch (item.getItemId()) {
                     case R.id.tv_price:
-                        Toast.makeText(NavigationActivity.this, "income", Toast.LENGTH_SHORT).show();
                          intent = new Intent(NavigationActivity.this,IncomeRecyclerView.class);
                          startActivity(intent);
                         break;
                     case R.id.Outcome:
-                        Toast.makeText(NavigationActivity.this, "Outcome", Toast.LENGTH_SHORT).show();
                         intent = new Intent(NavigationActivity.this,OutcomeRecyclerView.class);
                         startActivity(intent);
                         break;
                     case R.id.cart:
                         intent = new Intent(NavigationActivity.this,ShopActivity.class);
                         startActivity(intent);
-                        Toast.makeText(NavigationActivity.this, "Cart", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.Transfer:
-                        Toast.makeText(NavigationActivity.this, "Transfer Cash", Toast.LENGTH_SHORT).show();
                         intent = new Intent(NavigationActivity.this,TransferActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.Recharge:
                         intent = new Intent(NavigationActivity.this, RechargeActivity.class);
                         startActivity(intent);
-                        Toast.makeText(NavigationActivity.this, "Recharge Acc", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.QR:
-                        Toast.makeText(NavigationActivity.this, "QR CODE", Toast.LENGTH_SHORT).show();
                         intent = new Intent(NavigationActivity.this,QrcodeActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.Setting:
-                        Toast.makeText(NavigationActivity.this, "Setting", Toast.LENGTH_SHORT).show();
                         intent= new Intent(NavigationActivity.this,SettingActivity.class);
                         startActivity(intent);
                         break;
