@@ -1,5 +1,6 @@
 package com.rngesus.smartwallet.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -7,16 +8,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.rngesus.smartwallet.Firebase;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.rngesus.smartwallet.Profile;
 import com.rngesus.smartwallet.R;
 import com.rngesus.smartwallet.SliderAdapter;
 import com.rngesus.smartwallet.Slider;
@@ -36,7 +42,6 @@ public class HomeFragment extends Fragment {
     private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference ProfileRef = db.collection("USERS");
-    Firebase firebase=new Firebase();
     String email;
     int amount;
     public static TextView balance;
@@ -50,11 +55,11 @@ public class HomeFragment extends Fragment {
         bannersliderviewpager=view.findViewById(R.id.bannerview_pager);
         balance=view.findViewById(R.id.balance);
 
-        firebase.loadUserBalance(balance,getContext());
+        loadUserBalance(balance,getContext());
 
 
 
-        Sliders =new ArrayList<Slider>();
+        Sliders = new ArrayList<>();
 
         Sliders.add(new Slider(R.drawable.macmobile));
         Sliders.add(new Slider(R.drawable.dunkin));
@@ -141,6 +146,35 @@ public class HomeFragment extends Fragment {
         },DELAYTIME,PeriodTIME);
     }
 
+    private void loadUserBalance(TextView balance, Context context)
+    {
+
+
+
+        Query query;
+        query = ProfileRef.orderBy("email");
+        query.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Profile profile = documentSnapshot.toObject(Profile.class);
+
+
+                            email = profile.getEmail();
+
+                            amount = profile.getAmount();
+
+                            if (userEmail.equalsIgnoreCase(email)) {
+                                balance.setText("Rs. "+amount);
+                            }
+
+
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(context,"failed to get query results",Toast.LENGTH_SHORT).show());
+    }
 
 
 

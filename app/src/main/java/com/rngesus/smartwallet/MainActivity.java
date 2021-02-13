@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvSignup.setOnClickListener(v -> {
 
-            Intent intent = new Intent(MainActivity.this, Sign_Up.class);
+            Intent intent = new Intent(MainActivity.this, SignUp.class);
             startActivity(intent);
 
 

@@ -25,13 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-public class Sign_Up extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
     private TextView Alreadyhaveaccount;
     private EditText iD;
     private EditText fullname;
     private EditText Password;
     private EditText confirmPassword;
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private Button signUp;
     private FirebaseAuth mAuth;
     private ProgressBar bar;
@@ -41,11 +41,11 @@ public class Sign_Up extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign__up);
-        initi();
+        init();
         onView();
 
     }
-    void initi()
+    void init()
     {
         Alreadyhaveaccount = findViewById(R.id.tvSignIn);
         Alreadyhaveaccount.setPaintFlags( Alreadyhaveaccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -70,7 +70,7 @@ public class Sign_Up extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                chagestate();
+                changeState();
 
             }
 
@@ -87,7 +87,7 @@ public class Sign_Up extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                chagestate();
+                changeState();
 
             }
 
@@ -104,7 +104,7 @@ public class Sign_Up extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                chagestate();
+                changeState();
 
             }
 
@@ -121,7 +121,7 @@ public class Sign_Up extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                chagestate();
+                changeState();
 
             }
 
@@ -133,24 +133,19 @@ public class Sign_Up extends AppCompatActivity {
         Alreadyhaveaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Sign_Up.this,MainActivity.class);
+                Intent intent=new Intent(SignUp.this,MainActivity.class);
                 startActivity(intent);
                 finish();
 
             }
         });
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkemail();
-            }
-        });
+        signUp.setOnClickListener(v -> checkEmail());
     }
     @Override
     public void onBackPressed(){
         return;
     }
-    private void chagestate() {
+    private void changeState() {
         if (!TextUtils.isEmpty(iD.getText())) {
             if (!TextUtils.isEmpty(fullname.getText())) {
                 if (!TextUtils.isEmpty(Password.getText()) && confirmPassword.length() >= 8) {
@@ -183,7 +178,7 @@ public class Sign_Up extends AppCompatActivity {
 
 
     }
-    private void checkemail() {
+    private void checkEmail() {
 
 
         if (iD.getText().toString().matches(emailPattern))
@@ -215,7 +210,7 @@ public class Sign_Up extends AppCompatActivity {
                                                 fullname.setText(" ");
                                                 Password.setText(" ");
                                                 confirmPassword.setText(" ");
-                                                Intent intent=new Intent(Sign_Up.this,MainActivity.class);
+                                                Intent intent=new Intent(SignUp.this,MainActivity.class);
                                                 startActivity(intent);
                                                 finish();
                                             }
@@ -223,7 +218,7 @@ public class Sign_Up extends AppCompatActivity {
                                             {
                                                 bar.setVisibility(View.INVISIBLE);
                                                 String error=task.getException().getMessage();
-                                                Toast.makeText(Sign_Up.this, "ERROR="+error, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignUp.this, "ERROR="+error, Toast.LENGTH_SHORT).show();
                                                 signUp.setEnabled(true);
                                             }
 
@@ -238,7 +233,7 @@ public class Sign_Up extends AppCompatActivity {
                                 {
                                     bar.setVisibility(View.INVISIBLE);
                                     String error=task.getException().getMessage();
-                                    Toast.makeText(Sign_Up.this, "ERROR="+error, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUp.this, "ERROR="+error, Toast.LENGTH_SHORT).show();
                                     signUp.setEnabled(true);
 
                                 }
