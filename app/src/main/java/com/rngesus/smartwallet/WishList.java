@@ -1,20 +1,18 @@
 package com.rngesus.smartwallet;
 
-import android.widget.ImageView;
-
 public class WishList {
     int img;
     String title;
-    String Avalable;
+    String available;
     String price;
-    String totalproduct;
+    String totalProduct;
 
-    public WishList(int img, String title, String avalable, String price, String totalproduct) {
+    public WishList(int img, String title, String available, String price, String totalProduct) {
         this.img = img;
         this.title = title;
-        Avalable = avalable;
+        this.available = available;
         this.price = price;
-        this.totalproduct = totalproduct;
+        this.totalProduct = totalProduct;
     }
 
     public int getImg() {
@@ -33,12 +31,12 @@ public class WishList {
         this.title = title;
     }
 
-    public String getAvalable() {
-        return Avalable;
+    public String getAvailable() {
+        return available;
     }
 
-    public void setAvalable(String avalable) {
-        Avalable = avalable;
+    public void setAvailable(String available) {
+        this.available = available;
     }
 
     public String getPrice() {
@@ -49,11 +47,11 @@ public class WishList {
         this.price = price;
     }
 
-    public String getTotalproduct() {
-        return totalproduct;
+    public String getTotalProduct() {
+        return totalProduct;
     }
 
-    public void setTotalproduct(String totalproduct) {
-        this.totalproduct = totalproduct;
+    public void setTotalProduct(String totalProduct) {
+        this.totalProduct = totalProduct;
     }
 }

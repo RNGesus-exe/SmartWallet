@@ -41,10 +41,6 @@ public class WishListAdapter extends RecyclerView.Adapter< WishListAdapter.MAdap
         return items.size();
     }
 
-    public interface ItemSelected {
-        void itemClicked(int index);
-    }
-
     public class MAdapter extends RecyclerView.ViewHolder
     {
         TextView etItemName;
