@@ -1,19 +1,15 @@
 package com.rngesus.smartwallet;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -29,21 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-
-public class SignUp extends Fragment {
-
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private View view;
-
-    public SignUp() {
-        // Required empty public constructor
-    }
+public class Sign_Up extends AppCompatActivity {
     private TextView Alreadyhaveaccount;
     private EditText iD;
     private EditText fullname;
@@ -55,52 +37,31 @@ public class SignUp extends Fragment {
     private ProgressBar bar;
     private FirebaseFirestore firebaseFirestore;
 
-
-
-
-
-    public static SignUp newInstance(String param1, String param2) {
-        SignUp fragment = new SignUp();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        setContentView(R.layout.activity_sign__up);
+        initi();
+        onView();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-        Alreadyhaveaccount = view.findViewById(R.id.tvSignIn);
+    }
+    void initi()
+    {
+        Alreadyhaveaccount = findViewById(R.id.tvSignIn);
         Alreadyhaveaccount.setPaintFlags( Alreadyhaveaccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        iD = view.findViewById(R.id.email2);
-        fullname = view.findViewById(R.id.ename);
-        Password = view.findViewById(R.id.Password);
-        confirmPassword = view.findViewById(R.id.ConPassword);
-        signUp = view.findViewById(R.id.button);
+        iD = findViewById(R.id.email2);
+        fullname = findViewById(R.id.ename);
+        Password = findViewById(R.id.Password);
+        confirmPassword = findViewById(R.id.ConPassword);
+        signUp = findViewById(R.id.button);
         mAuth = FirebaseAuth.getInstance();
-        bar=view.findViewById(R.id.progressBar2);
+        bar=findViewById(R.id.progressBar2);
         bar.setVisibility(View.GONE);
         firebaseFirestore=FirebaseFirestore.getInstance();
-        return view;
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onView() {
         iD.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -172,9 +133,9 @@ public class SignUp extends Fragment {
         Alreadyhaveaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(),MainActivity.class);
+                Intent intent=new Intent(Sign_Up.this,MainActivity.class);
                 startActivity(intent);
-                getActivity().finish();
+                finish();
 
             }
         });
@@ -185,10 +146,10 @@ public class SignUp extends Fragment {
             }
         });
     }
-
-    
-     
-
+    @Override
+    public void onBackPressed(){
+        return;
+    }
     private void chagestate() {
         if (!TextUtils.isEmpty(iD.getText())) {
             if (!TextUtils.isEmpty(fullname.getText())) {
@@ -199,24 +160,24 @@ public class SignUp extends Fragment {
                             signUp.setTextColor(getResources().getColor(R.color.teal_200));
                         }
 
-                        } else {
-                            signUp.setEnabled(false);
-                            signUp.setTextColor(getResources().getColor(R.color.black));
-                        }
                     } else {
                         signUp.setEnabled(false);
                         signUp.setTextColor(getResources().getColor(R.color.black));
-
                     }
                 } else {
                     signUp.setEnabled(false);
                     signUp.setTextColor(getResources().getColor(R.color.black));
-                }
 
+                }
             } else {
                 signUp.setEnabled(false);
                 signUp.setTextColor(getResources().getColor(R.color.black));
             }
+
+        } else {
+            signUp.setEnabled(false);
+            signUp.setTextColor(getResources().getColor(R.color.black));
+        }
 
 
 
@@ -224,7 +185,7 @@ public class SignUp extends Fragment {
     }
     private void checkemail() {
 
-      
+
         if (iD.getText().toString().matches(emailPattern))
         {
             if(Password.getText().toString().contentEquals(confirmPassword.getText()))
@@ -254,15 +215,15 @@ public class SignUp extends Fragment {
                                                 fullname.setText(" ");
                                                 Password.setText(" ");
                                                 confirmPassword.setText(" ");
-                                                Intent intent=new Intent(getContext(),MainActivity.class);
+                                                Intent intent=new Intent(Sign_Up.this,MainActivity.class);
                                                 startActivity(intent);
-                                                getActivity().finish();
+                                                finish();
                                             }
                                             else
                                             {
                                                 bar.setVisibility(View.INVISIBLE);
                                                 String error=task.getException().getMessage();
-                                                Toast.makeText(getActivity(), "ERROR="+error, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(Sign_Up.this, "ERROR="+error, Toast.LENGTH_SHORT).show();
                                                 signUp.setEnabled(true);
                                             }
 
@@ -277,7 +238,7 @@ public class SignUp extends Fragment {
                                 {
                                     bar.setVisibility(View.INVISIBLE);
                                     String error=task.getException().getMessage();
-                                    Toast.makeText(getActivity(), "ERROR="+error, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Sign_Up.this, "ERROR="+error, Toast.LENGTH_SHORT).show();
                                     signUp.setEnabled(true);
 
                                 }
@@ -293,6 +254,4 @@ public class SignUp extends Fragment {
             iD.setError("Email Mismatch!");
         }
     }
-
-
 }

@@ -102,6 +102,10 @@ public class RechargeActivity extends AppCompatActivity {
         }
         return false;
     }
+    @Override
+    public void onBackPressed(){
+        return;
+    }
 
     private void load_cards(RechargeCallBack rechargeCallBack){
         db.collection("Cards")

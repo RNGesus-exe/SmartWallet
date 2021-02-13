@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.StringTokenizer;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogin;
     TextView tvSignup;
     TextView tvForgotten;
-    SharedPref shared;
+    SharedPref shared=new SharedPref();
     public static final String MY_PREFS_FILENAME = "com.rngesus.smartwallet";
 
 
@@ -46,14 +48,18 @@ public class MainActivity extends AppCompatActivity {
                 signin(etLogin.getText().toString(), etPass.getText().toString());
 
             }
-            signin(etLogin.getText().toString(), etPass.getText().toString());
+            else {
+
+                signin(etLogin.getText().toString(), etPass.getText().toString());
+
+            }
         });
 
         tvSignup.setOnClickListener(v -> {
 
-            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(MainActivity.this, Sign_Up.class);
             startActivity(intent);
-            finish();
+
 
         });
 
@@ -78,19 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
         cbKeepsigned = findViewById(R.id.cbSignedin);
 
-        shared=new SharedPref();
-        shared.LoadData(MainActivity.this);
         String message = shared.LoadData(MainActivity.this);
-        String[] str = new String[3];
+        StringTokenizer tokens = new StringTokenizer(message,",");
 
-        for(int i=0; i<message.length(); i++)
-        {
-            str=message.split(",");
-        }
-
-        if (str[0].equals("true")) {
-            String login = str[1];
-            String pass = str[2];
+        if (tokens.nextToken().equals("true")) {
+            String login = tokens.nextToken();
+            String pass = tokens.nextToken();
             signin(login,pass);
 
         }
@@ -113,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         etLogin.setText("");
                         etPass.setText("");
-                        // use this to get user details in main program
-                        // FirebaseUser user = mAuth.getCurrentUser();
+                        cbKeepsigned.setChecked(false);
 
                     } else {
                         // If sign in fails, display a message to the user.
