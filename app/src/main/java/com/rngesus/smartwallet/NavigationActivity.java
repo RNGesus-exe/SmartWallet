@@ -46,9 +46,6 @@ public class NavigationActivity extends AppCompatActivity {
     private String userEmail =  firebaseAuth.getCurrentUser().getEmail();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference ProfileRef = db.collection("USERS");
-    String email;
-    int amount;
-    int UserAmount = 0;
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
     String user;
